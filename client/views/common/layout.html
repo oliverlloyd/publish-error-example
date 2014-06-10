@@ -1,0 +1,32 @@
+<!-- 
+  This is where the page is laid out
+  {{>yield}} is where iron-router renders the current template which changes depending on what is in router.js
+
+  The router.js file is configured to use thos layout template file to layout the page
+-->
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+</head>
+
+<template name="layout">
+  <!-- http://ryanfait.com/resources/footer-stick-to-bottom-of-page/ -->
+  <div class="application wrapper">
+    <div class="header">
+      <div class="ui grid">
+        {{>header}}
+      </div>
+    </div>
+    <div class="content">
+      <div class="ui grid">
+        {{>yield}}
+      </div>
+    </div>
+    <div class="push"></div>
+  </div>  
+
+  <div class="footer">
+    <div class="ui grid">
+      {{>footer}}
+    </div>
+  </div>
+</template>

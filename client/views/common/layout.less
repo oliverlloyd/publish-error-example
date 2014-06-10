@@ -1,0 +1,38 @@
+
+// .application {
+//   position: fixed;
+//   top: 0;
+//   right: 0;
+//   bottom: 0;
+//   left: 0;
+//   width: auto;
+//   height: auto;
+//   margin: 0;
+// }
+
+h1 { margin-top: 0; }
+
+@paddingsides: 80px;
+@paddingtop: 20px;
+@paddingbottom: 20px;
+.header { padding-left: @paddingsides; padding-right: @paddingsides; padding-top: @paddingtop; }
+.content { padding-left: @paddingsides; padding-right: @paddingsides; padding-top: @paddingtop; padding-bottom: @paddingbottom; }
+.footer { padding-left: @paddingsides; padding-right: @paddingsides; padding-top: @paddingtop; }
+
+
+// http://ryanfait.com/resources/footer-stick-to-bottom-of-page/
+* {
+  margin: 0;
+}
+html, body {
+  height: 100%;
+}
+.wrapper {
+  min-height: 100%;
+  height: auto !important;
+  height: 100%;
+  margin: 0 auto -4em;
+}
+.footer, .push {
+  height: 4em;
+}

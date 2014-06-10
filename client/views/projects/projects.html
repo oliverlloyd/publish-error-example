@@ -1,0 +1,68 @@
+<!-- 
+  See router.js. A subscription to all (allowed) projects in the db is made when the
+  /projects route is called and this template is rendered using the result of 
+  that query/subscription.
+  The data changes live in response to any data changes in the db and in response to pagination.
+-->
+<template name="projects">
+
+  <div class="two column row">
+    <div class="column">
+      <div class="ui teal button goto-createproject">Create New Project</div>
+    </div>
+    <div class="column">
+      <div class="ui icon input project-filter">
+        <input id="projectFilter"  type="text" placeholder="Search for a project">
+        <i class="search icon"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="one column row">
+    <div class="column">
+      <div class="project count">{{countOfProjects}}</div>
+    </div>
+  </div>
+
+  {{#each projects}}
+    <div class="one column row">
+      <div class="column">    
+        {{> projectItem }}
+      </div>
+    </div>
+  {{/each}}
+  
+  <div class="one column row">
+    <div class="column">
+      <div class="{{isPaginationVisible}} ui pagination menu">
+        <a class="{{isLeftArrowDisabled}} left pagination arrow item">
+          <i class="left arrow icon"></i>
+        </a>
+        {{#each paginationItems }}
+          {{> paginationItem }}
+        {{/each}}
+        <a class="{{isRightArrowDisabled}} right pagination arrow item">
+          <i class="right arrow icon"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</template>
+
+<template name="paginationItem">
+  <a class="{{pageActive}} pagination number small item">{{getPage}}</a>
+</template>
+
+<template name="projectItem">
+  <div class="project container">
+    <a class="project name" href="{{pathFor "project"}}">{{name}}</a>
+    {{#if isIncomplete complete}}
+      <i class="project warning icon"></i>
+    {{/if}}
+    <span class="project created">Created {{dateAgo createdOn}}</span>
+    
+    <span class="project description">{{description}}</span>
+    <button class="project remove">Delete</button>
+  </div>
+</template>
+

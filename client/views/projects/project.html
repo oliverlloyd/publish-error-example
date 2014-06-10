@@ -1,0 +1,19 @@
+<!-- 
+  See router.js. A subscription to the specific record in the db is made when this 
+  /project/ID route is called and this template is rendered using the result of 
+  that query/subscription.
+  The data changes live in response to any data changes in the db.
+-->
+<template name="project">
+  <div class="one column row">
+    <div class="column">
+      <a href="{{pathFor 'projects'}}">← Back</a>
+      {{#with project}}
+        <div class="project">
+          <h3>{{name}}</h3>
+          <h5><a href="#" class="delete">Delete</a></h5>
+        </div>
+      {{/with}}
+    </div>
+  </div>
+</template>

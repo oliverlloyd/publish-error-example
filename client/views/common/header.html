@@ -1,0 +1,60 @@
+<!-- ***************************************************
+
+## Notes ##
+
+In some cases, you'll want to avoid refreshing parts of your template. The most typical case for this is a dropdown list which would reset back to the first element if you let it refresh. You can do this by using "{{#constant}}" markup on the template:
+  {{#constant}}
+    <select class="mysel span3">
+      <option value="">First Value</option>
+     {{#each raters}}
+      <option value="{{val}}">{{description}}</option>
+     {{/each}}
+   </select>
+ {{/constant}}
+ 
+
+ For the case where you want to display sections of templates depending on whether the user is logged in, you can do
+  {{#if currentUser}}
+    ...
+  {{/if}
+However, since Meteor is reactive, when you first hit a page, the currentUser object may not exist yet even if the user is logged in. So if you're just depending on currentUser to figure out whether to show a logged-in template vs. non-logged-in one, the page will flash the non-logged-in template temporarily because a Meteor page has 3 states: not logged in, logging in (currentUser object hasn't been sent down to the client yet), and logged in. To handle the middle state, you have to follow the pattern on the mini-pages site and create a separate "loggingIn" template:
+  function loggingIn () {
+    if (Meteor.loggingIn()) {
+      this.template("loggingIn");
+      this.done();
+    }
+  }
+  Meteor.pages({
+    '/posts/:_id': { to: "postShow", before: [loggingIn] }
+  });
+
+ http://www.keysolutions.com/blogs/kenyee.nsf/d6plinks/KKYE-94VUVQ
+
+**************************************************** -->
+
+
+<template name="header">
+  <div class="ui secondary pointing menu">
+    <a name="homepage" href="{{pathFor 'homepage'}}" class="{{homepageMenuActive}} top navigation item">
+      TRAX
+    </a>
+    <a name="about" href="{{pathFor 'about'}}" class="{{aboutMenuActive}} top navigation item">
+      About
+    </a>
+    <a name="content" href="{{pathFor 'content'}}" class="{{contentMenuActive}} top navigation item">
+      Content
+    </a>
+    <a name="projects" href="{{pathFor 'projects'}}" class="{{projectsMenuActive}} top navigation item">
+      Projects
+    </a>
+    <div class="right menu">
+      <div class="item">
+        {{>authentication}}
+      </div>
+    </div>
+  </div>
+</template>
+
+
+
+

@@ -1,0 +1,9 @@
+{
+  "packages": {
+    "iron-router": {},
+    "semantic-ui": {},
+    "collection-hooks": {},
+    "fast-render": {},
+    "moment": {}
+  }
+}
