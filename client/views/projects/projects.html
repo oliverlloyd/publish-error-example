@@ -5,48 +5,56 @@
   The data changes live in response to any data changes in the db and in response to pagination.
 -->
 <template name="projects">
-
   <div class="two column row">
-    <div class="column">
-      <div class="ui teal button goto-createproject">Create New Project</div>
-    </div>
-    <div class="column">
-      <div class="ui icon input project-filter">
-        <input id="projectFilter"  type="text" placeholder="Search for a project">
-        <i class="search icon"></i>
-      </div>
-    </div>
-  </div>
 
-  <div class="one column row">
-    <div class="column">
-      <div class="project count">{{countOfProjects}}</div>
-    </div>
-  </div>
-
-  {{#each projects}}
-    <div class="one column row">
-      <div class="column">    
-        {{> projectItem }}
-      </div>
-    </div>
-  {{/each}}
-  
-  <div class="one column row">
-    <div class="column">
-      <div class="{{isPaginationVisible}} ui pagination menu">
-        <a class="{{isLeftArrowDisabled}} left pagination arrow item">
-          <i class="left arrow icon"></i>
-        </a>
-        {{#each paginationItems }}
-          {{> paginationItem }}
+    <div class="twelve wide column">
+        <div class="ui grid">
+        <div class="two column row">
+          <div class="column">
+            <div class="ui icon input project-filter">
+              <input id="projectFilter"  type="text" placeholder="Search for a project">
+              <i class="search icon"></i>
+            </div>
+          </div>
+          <div class="column">
+            <div class="project count">{{countOfProjects}}</div>
+          </div>
+        </div>
+        {{#each projects}}
+          <div class="one column row">
+            <div class="column">    
+              {{> projectItem }}
+            </div>
+          </div>
         {{/each}}
-        <a class="{{isRightArrowDisabled}} right pagination arrow item">
-          <i class="right arrow icon"></i>
-        </a>
+        <div class="one column row">
+          <div class="column">
+            <div class="{{isPaginationVisible}} ui pagination menu">
+              <a class="{{isLeftArrowDisabled}} left pagination arrow item">
+                <i class="left arrow icon"></i>
+              </a>
+              {{#each paginationItems }}
+                {{> paginationItem }}
+              {{/each}}
+              <a class="{{isRightArrowDisabled}} right pagination arrow item">
+                <i class="right arrow icon"></i>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+    <div class="four wide column">
+      <div class="one column row">
+        <div class="column floated right">
+          <div class="ui teal button goto-createproject">Create New Project</div>
+        </div>
+      </div>
+    </div>
+
   </div>
+
 </template>
 
 <template name="paginationItem">
