@@ -108,9 +108,9 @@ Template.projects.rendered = function () {
 };
 
 Template.projects.events({
-  'click .goto-createproject': function (event, template) {
+  'click .goto-newproject': function (event, template) {
     var self = this;
-    Router.go('createproject');
+    Router.go('newproject');
     return false;
   },
   'click .project.remove': function (event, template) {
