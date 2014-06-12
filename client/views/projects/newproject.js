@@ -2,25 +2,27 @@
 
 ## Create New Project ##
 
-Code related to the createproject template
+Code related to the newproject template
 
 /+ ---------------------------------------------------- */
 
 Router.map(function() {
-  this.route('createproject');
+  this.route('newproject', {
+    path: '/projects/new'
+  });
 });
 
-Template.createproject.created = function () {
+Template.newproject.created = function () {
   //
 };
 
-Template.createproject.helpers({
+Template.newproject.helpers({
   //
 });
 
-Template.createproject.rendered = function () {
+Template.newproject.rendered = function () {
   // Form validation - http://semantic-ui.com/modules/form.html
-  $('.ui.form.createproject').form({
+  $('.ui.form.newproject').form({
     projectName: {
       identifier  : 'project-name', // matches the name attribute
       rules: [
@@ -46,7 +48,7 @@ Template.createproject.rendered = function () {
   });
 };
 
-Template.createproject.events({
+Template.newproject.events({
   'click .create.project': function (event, template) {
     var self = this;
     
@@ -58,7 +60,7 @@ Template.createproject.events({
       num: 123
     };
 
-    $('.ui.form.createproject').form('setting', { // http://semantic-ui.com/modules/form.html
+    $('.ui.form.newproject').form('setting', { // http://semantic-ui.com/modules/form.html
       onFailure    : function(){
         return false;
       },
@@ -71,7 +73,7 @@ Template.createproject.events({
       }
     });
 
-    $('.ui.form.createproject').form('validate form'); // http://semantic-ui.com/modules/form.html
+    $('.ui.form.newproject').form('validate form'); // http://semantic-ui.com/modules/form.html
 
     return false;
   }
