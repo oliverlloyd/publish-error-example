@@ -37,7 +37,7 @@ Meteor.methods({
     }
   },
   removeProject: function(project) {
-    check(arguments, [Match.Any])
+    check(arguments, [Match.Any]);
     if( allowedTo.removeProject(Meteor.user(), project) ){
       Projects.remove({_id: project._id});
     } else {
