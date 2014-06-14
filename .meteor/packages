@@ -6,7 +6,6 @@
 standard-app-packages
 iron-router
 accounts-password
-audit-argument-checks
 semantic-ui
 less
 collection-hooks
