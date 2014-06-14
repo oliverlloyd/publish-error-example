@@ -74,7 +74,5 @@ Template.newproject.events({
     });
 
     $('.ui.form.newproject').form('validate form'); // http://semantic-ui.com/modules/form.html
-
-    return false;
   }
 });
