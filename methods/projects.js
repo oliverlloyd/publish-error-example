@@ -33,7 +33,7 @@ Meteor.methods({
       var id = Projects.insert(project);
       return id;
     } else {
-      throw new Meteor.Error(403, 'You do not have permission to create this project.');
+      throw new Meteor.Error(403, 'Invalid request');
     }
   },
   removeProject: function(project) {
