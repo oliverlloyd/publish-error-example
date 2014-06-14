@@ -29,6 +29,7 @@ Meteor.methods({
   createProject: function(project) {
     if( allowedTo.createProject(Meteor.user(), project) && isAcceptable(project) ){
       project.owner = this.userId;
+      project.complete = project.complete || false;
       var id = Projects.insert(project);
       return id;
     } else {
