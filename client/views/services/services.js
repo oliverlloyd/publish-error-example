@@ -159,21 +159,9 @@ var showServiceExample = function(type){
 };
 
 Template.serviceRow.helpers({
-  isBoolean: function(){
-    var service = this;
-    return service.type === 'boolean';
-  },
   isList: function(){
     var service = this;
     return service.type === 'list';
-  },
-  isText: function(){
-    var service = this;
-    return service.type === 'text';
-  },
-  isNumber: function(){
-    var service = this;
-    return service.type === 'number';
   },
   firstOption: function(){
     var self = this;
