@@ -127,8 +127,12 @@
     <div class="right floated tiny basic ui button">+Tags</div>
     <i class="red circular link remove icon"></i>
     <div class="content">
-      <div class="header">{{name}}</div>
-      <div class="description">{{displayType this}}</div>  
+      {{#if editing}}
+        <input class="edit service name" type="text" value="{{name}}" />
+      {{else}}
+        <div class="display service name header">{{name}}</div>
+      {{/if}}      
+      <div class="description">{{describeType this}}</div>  
     </div>  
   </div>
 </template>

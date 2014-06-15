@@ -1,4 +1,8 @@
-// Session.setDefault('selectedType', 'boolean');
+
+
+// When editing service name text, ID of the service
+Session.setDefault('editing_servicename', null);
+
 
 Router.map(function() {
   this.route('services', {
@@ -10,12 +14,52 @@ Router.map(function() {
       // Initalise each display service
       $('.ui.service.display-control.dropdown').dropdown();
 
+      // Get the current project and put it into the session
+      var thisproject = Projects.findOne(this.params._id);
+      Session.set('currentProject', thisproject);
+
       return {
-        project: Projects.findOne(this.params._id)
+        project: thisproject
       };
     }
   });
 });
+
+
+////////// Helpers for in-place editing //////////
+
+// Returns an event map that handles the "escape" and "return" keys and
+// "blur" events on a text input (given by selector) and interprets them
+// as "ok" or "cancel".
+var okCancelEvents = function (selector, callbacks) {
+  var ok = callbacks.ok || function () {};
+  var cancel = callbacks.cancel || function () {};
+
+  var events = {};
+  events['keyup '+selector+', keydown '+selector+', focusout '+selector] =
+    function (evt) {
+      if (evt.type === "keydown" && evt.which === 27) {
+        // escape = cancel
+        cancel.call(this, evt);
+
+      } else if (evt.type === "keyup" && evt.which === 13 ||
+                 evt.type === "focusout") {
+        // blur/return/enter = ok/submit if non-empty
+        var value = String(evt.target.value || "");
+        if (value)
+          ok.call(this, value, evt);
+        else
+          cancel.call(this, evt);
+      }
+    };
+
+  return events;
+};
+
+var activateInput = function (input) {
+  input.focus();
+  input.select();
+};
 
 
 Template.services.rendered = function () {
@@ -100,6 +144,7 @@ Template.services.events({
 var buildService = function(){
   // Build a basic service based on page controls
   var service = {
+    _id: Random.id(), // Give an id to each service so we can reference them in lists
     name: $('#service-name').val(),
     type: $('.ui.service.type.dropdown').dropdown('get value')
   };
@@ -171,7 +216,7 @@ Template.serviceRow.helpers({
     self.options = self.options || [];    
     return self.options.toString();
   },
-  displayType: function(service){
+  describeType: function(service){
     var self = this;
     var type = service.type;
     switch ( type ) {
@@ -208,8 +253,31 @@ Template.serviceRow.helpers({
     }
 
     return type; // Error state
+  },
+  editing: function(){
+    return Session.equals('editing_servicename', this._id);
   }
 });
 
+Template.serviceRow.events(okCancelEvents(
+  '.edit.service.name',
+  {
+    ok: function (value) {
+      Meteor.call('updateServiceName', this._id, value, Session.get('currentProject'), function(error, result){
+        Session.set('editing_servicename', null);
+      });
+    },
+    cancel: function () {
+      Session.set('editing_servicename', null);
+    }
+  }));
+
+Template.serviceRow.events({
+  'dblclick .display.service.name': function (event, template) { // start editing service name
+    Session.set('editing_servicename', this._id);
+    Deps.flush(); // force DOM redraw, so we can focus the edit field
+    activateInput(template.find(".edit.service.name"));
+  }
+});
 
 
