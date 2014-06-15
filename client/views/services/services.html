@@ -6,11 +6,19 @@
           <span class="centered project name">{{servicesTitle}}</span>
         </div>
       </div>
-    {{/if}}
-    {{#each allServices }}
-      {{> serviceItem }}
-    {{/each}}
-    {{#if atLeastOneService}}
+      <div class="one column row">
+        <div class="column">
+
+          <!-- List all services -->
+          <div class="ui list">
+            {{#each allServices }}
+              {{> serviceRow }}
+            {{/each}}
+          </div>
+          <!-- ================= -->
+
+        </div>
+      </div>
       <div class="one column row">
         <div class="column">
           <div class="ui horizontal icon divider">
@@ -19,6 +27,8 @@
         </div>
       </div>
     {{/if}}
+
+    <!-- Create New Service -->
     <div class="one column row">
       <div class="column">
         <span class="centered project name">Create New</span>
@@ -37,7 +47,6 @@
             </div>
           </div>
           <div class="ui two fields">
-
             <div class="field">
               <label>What type of response do you want?</label>
               <div class="ui service type selection dropdown">
@@ -52,7 +61,6 @@
                 </div>
               </div>
             </div>
-
             <div class="field service example control list">
               <label>Add some options:</label>
               <div class="ui action input">
@@ -104,75 +112,24 @@
         </div>    
       </div>
     </div>
-
     <div class="one column row">
       <div class="column">
-        <div class="ui service create service button centered">Create</div>
+        <div class="ui service create service basic huge button centered">Create</div>
       </div>
     </div>
+    <!-- ============== -->
+
   {{/with}}
 </template>
 
-<template name="serviceItem">
-  <div class="one column row">
-    <div class="column">
-      {{#if isBooleanActive}}
-        <div class="service type boolean">
-          <div class="ui segment">
-            <div class="ui ribbon label">Display only</div>
-            <span class="service text">{{name}}</span>
-            <div class="ui large buttons display-control">
-              <div class="ui green button">Yes</div>
-              <div class="or"></div>
-              <div class="ui red button">No</div>
-            </div>
-          </div>
-        </div>
-      {{/if}}
-      {{#if isListActive}}
-        <div class="service type list">
-          <div class="ui segment">
-            <div class="ui ribbon label">Display only</div>
-            <span class="service text">{{name}}</span>
-            <div class="ui service list selection dropdown display-control">
-              <div class="default text">{{firstOption}}</div>
-              <i class="dropdown icon"></i>
-              <div class="menu">
-              {{#each getOptions}}
-                {{> option}}
-              {{/each}}
-              </div>
-            </div>
-          </div>
-        </div>
-      {{/if}}
-      {{#if isTextActive}}
-        <div class="service type text">
-          <div class="ui segment">
-            <div class="ui ribbon label">Display only</div>
-            <span class="service text">{{name}}</span>
-              <div class="ui input display-control">
-                <input type="text">
-              </div> 
-          </div>
-        </div>
-      {{/if}}
-      {{#if isNumberActive}}
-        <div class="service type number">
-          <div class="ui segment">
-            <div class="ui ribbon label">Display only</div>
-            <span class="service number">{{name}}</span>
-              <div class="ui input display-control">
-                <input type="number">
-              </div> 
-          </div>
-        </div>
-      {{/if}}
-    </div>
+<template name="serviceRow">
+  <div class="item">
+    <div class="right floated tiny basic ui button">+Tags</div>
+    <i class="red circular link remove icon"></i>
+    <div class="content">
+      <div class="header">{{name}}</div>
+      <div class="description">{{displayType this}}</div>  
+    </div>  
   </div>
-</template>
-
-<template name="option">
-  <div class="item">{{this}}</div>
 </template>
 

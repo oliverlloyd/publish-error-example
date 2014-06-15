@@ -22,7 +22,7 @@ Template.services.rendered = function () {
   // Initialise the type dropdown for creating a new service
   $('.ui.service.type.dropdown').dropdown('set value', 'boolean');
   $('.ui.service.type.dropdown').dropdown('set selected', 'boolean');
-  
+
   // Initalise each display service
   $('.ui.service.display-control.dropdown').dropdown();
 
@@ -158,39 +158,70 @@ var showServiceExample = function(type){
   }
 };
 
-Template.serviceItem.helpers({
-  isBooleanActive: function(){
+Template.serviceRow.helpers({
+  isBoolean: function(){
     var service = this;
-    if( service.type === 'boolean' ){
-      return true;
-    }
+    return service.type === 'boolean';
   },
-  isListActive: function(){
+  isList: function(){
     var service = this;
-    if( service.type === 'list' ){
-      return true;
-    }
+    return service.type === 'list';
   },
-  isTextActive: function(){
+  isText: function(){
     var service = this;
-    if( service.type === 'text' ){     
-      return true;
-    }
+    return service.type === 'text';
   },
-  isNumberActive: function(){
+  isNumber: function(){
     var service = this;
-    if( service.type === 'number' ){     
-      return true;
-    }
+    return service.type === 'number';
   },
   firstOption: function(){
     var self = this;
+    self.options = self.options || [null];
     return self.options[0];
   },
-  getOptions: function(){
+  listOptions: function(){
     var self = this;
     self.options = self.options || [];    
-    return self.options;
+    return self.options.toString();
+  },
+  displayType: function(service){
+    var self = this;
+    var type = service.type;
+    switch ( type ) {
+      case 'boolean':{
+        return 'Simple Yes / No';
+      }
+      break;
+      case 'number': {
+        return 'A Number';
+      }
+      break;
+      case 'text': {
+        return 'Some text';
+      }
+      break;
+      case 'list': {
+        var options = service.options || false;
+        if ( !options ) return 'List. No options configured!';
+        if ( options.length === 1 ) return 'One choice: ' + options[0] +'. (Note. Yes/No would be better here)';
+
+        // Construct a mesg listing the options for this service
+        var msg = 'A choice from ';
+        for (var i = 0; i < options.length; i++) {
+          if ( i === options.length - 1 ) { // Last entry in list
+            msg += ' or ';
+          } else if ( i !== 0 ){ // Not the first entry in list
+            msg += ', ';
+          }
+          msg += options[i];
+        }
+        return msg;
+      }
+      break;
+    }
+
+    return type; // Error state
   }
 });
 
