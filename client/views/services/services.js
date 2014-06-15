@@ -54,7 +54,6 @@ Template.services.helpers({
   }
 });
 
-
 Template.services.events({
   'change input.service.type': function (event, template) {
     var self = this;
@@ -80,7 +79,6 @@ Template.services.events({
   'click .create.service.button': function (event, template) {
     var project = this;
     var service = buildService();
-    console.log('add service, service: ', service)
     Meteor.call('addService', project, service, function(error, result){
       // done, so reset the page
       resetServiceExample();
@@ -90,7 +88,7 @@ Template.services.events({
   'click .add.example.option.button': function (event, template) {
     var optionText = $('#option-text').val();
     var index = $('.ui.service.example.list.dropdown .item').length;
-    var optionHtml = '<div class="item" data-value="'+index+'">'+optionText+'</div>'
+    var optionHtml = '<div class="item" data-value="'+index+'">'+optionText+'</div>';
     $('.ui.service.example.list.dropdown .menu').append($(optionHtml));
     $('.ui.service.example.list.dropdown').dropdown(); // Reset the dropdown control so it picks up this option
     $('.ui.service.example.list.dropdown').dropdown('show'); // Show the good work we've done to the user - Ie. open the dropdown
