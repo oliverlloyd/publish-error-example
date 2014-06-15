@@ -263,7 +263,8 @@ Template.serviceRow.events(okCancelEvents(
   '.edit.service.name',
   {
     ok: function (value) {
-      Meteor.call('updateServiceName', this._id, value, Session.get('currentProject'), function(error, result){
+      var self = this;
+      Meteor.call('updateServiceName', Session.get('currentProject'), self._id, value, function(error, result){
         Session.set('editing_servicename', null);
       });
     },
@@ -277,6 +278,15 @@ Template.serviceRow.events({
     Session.set('editing_servicename', this._id);
     Deps.flush(); // force DOM redraw, so we can focus the edit field
     activateInput(template.find(".edit.service.name"));
+  },
+  'click .remove.service.icon': function (event, template){
+    var self = this;
+    if ( confirm('Are you sure you want to delete this service?') ){
+      Meteor.call('deleteService', Session.get('currentProject'), self._id, function(error, result){
+        // done
+      });
+    }
+    return false;
   }
 });
 

@@ -20,12 +20,21 @@ Meteor.methods({
       throw new Meteor.Error(403, 'Invalid request');
     }
   },
-  updateServiceName: function(id, value, project) {
+  updateServiceName: function(project, serviceid, value) {
     check(value, nonEmptyString);
-    check(id, nonEmptyString);
+    check(serviceid, nonEmptyString);
 
     if( allowedTo.updateProject(Meteor.user(), project) ){
-      Projects.update({'_id': project._id, 'services._id': id}, {$set: {'services.$.name': value}});
+      Projects.update({'_id': project._id, 'services._id': serviceid}, {$set: {'services.$.name': value}});
+    } else {
+      throw new Meteor.Error(403, 'You are not allowed to edit this project');
+    }
+  },
+  deleteService: function(project, serviceid) {
+    check(serviceid, nonEmptyString);
+
+    if( allowedTo.updateProject(Meteor.user(), project) ){
+      Projects.update({'_id': project._id}, {$pull: {services: {_id: serviceid}}});
     } else {
       throw new Meteor.Error(403, 'You are not allowed to edit this project');
     }

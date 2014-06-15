@@ -10,7 +10,7 @@
         <div class="column">
 
           <!-- List all services -->
-          <div class="ui list">
+          <div class="ui services list">
             {{#each allServices }}
               {{> serviceRow }}
             {{/each}}
@@ -125,7 +125,7 @@
 <template name="serviceRow">
   <div class="item">
     <div class="right floated tiny basic ui button">+Tags</div>
-    <i class="red circular link remove icon"></i>
+    <i class="red circular link remove service icon"></i>
     <div class="content">
       {{#if editing}}
         <input class="edit service name" type="text" value="{{name}}" />
