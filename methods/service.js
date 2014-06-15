@@ -15,7 +15,7 @@ Meteor.methods({
 
     if( allowedTo.updateProject(Meteor.user(), project) && isAcceptable(service) ){
       service.created = Date.now();
-      Projects.update({'_id': project._id}, {$push: {services: service}, $set: {complete: true}});
+      Projects.update({'_id': project._id}, {$push: {services: service}});
     } else {
       throw new Meteor.Error(403, 'Invalid request');
     }

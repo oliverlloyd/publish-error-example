@@ -50,8 +50,9 @@ Template.projects.created = function () {
 };
 
 Template.projects.helpers({
-  isIncomplete : function(complete) {
-    if ( complete ) return false;
+  isIncomplete : function() {
+    var self = this;
+    if ( self.services && self.services.length > 0 ) return false;
     else return true;
   },
   paginationItems: function(){

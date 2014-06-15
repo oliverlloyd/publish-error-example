@@ -29,7 +29,6 @@ Meteor.methods({
   createProject: function(project) {
     if( allowedTo.createProject(Meteor.user(), project) && isAcceptable(project) ){
       project.owner = this.userId;
-      project.complete = project.complete || false;
       var id = Projects.insert(project);
       return id;
     } else {
@@ -63,7 +62,6 @@ var isAcceptable = function(project){
     name: nonEmptyString,
     description: Match.Optional(String),
     public: Match.Optional(Boolean),
-    complete: Match.Optional(Boolean),
     num: Number,
     _id: Match.Optional(nonEmptyString)
   });

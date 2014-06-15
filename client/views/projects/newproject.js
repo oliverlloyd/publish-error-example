@@ -56,7 +56,6 @@ Template.newproject.events({
     var project = {
       name: template.find("input[name=project-name]").value,
       description: template.find("input[name=project-description]").value,
-      complete: false,
       num: 123
     };
 

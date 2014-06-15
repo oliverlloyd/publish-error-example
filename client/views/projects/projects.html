@@ -64,7 +64,7 @@
 <template name="projectItem">
   <div class="project container">
     <a class="project name" href="{{pathFor "project"}}">{{name}}</a>
-    {{#if isIncomplete complete}}
+    {{#if isIncomplete}}
       <i class="project warning icon"></i>
     {{/if}}
     <span class="project created">Created {{dateAgo createdOn}}</span>
