@@ -263,8 +263,8 @@ Template.serviceRow.events(okCancelEvents(
   '.edit.service.name',
   {
     ok: function (value) {
-      var self = this;
-      Meteor.call('updateServiceName', Session.get('currentProject'), self._id, value, function(error, result){
+      var service = this;
+      Meteor.call('updateServiceName', Session.get('currentProject'), service._id, value, function(error, result){
         Session.set('editing_servicename', null);
       });
     },
