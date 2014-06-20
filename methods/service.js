@@ -9,9 +9,9 @@
 
 Meteor.methods({
   addService: function(project, service) {
-    if ( service.hasOwnProperty('name') ) check(service.name, nonEmptyString);
-    if ( service.hasOwnProperty('type') ) check(service.type, nonEmptyString);
-    if ( service.hasOwnProperty('options') ) check(service.options, Array);
+    if ( _.has(service, 'name') ) check(service.name, nonEmptyString);
+    if ( _.has(service, 'type') ) check(service.type, nonEmptyString);
+    if ( _.has(service, 'options') ) check(service.options, Array);
 
     if( allowedTo.updateProject(Meteor.user(), project) && isAcceptable(service) ){
       service.created = Date.now();
