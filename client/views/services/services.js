@@ -256,6 +256,11 @@ Template.serviceRow.helpers({
   },
   editing: function(){
     return Session.equals('editing_servicename', this._id);
+  },
+  // Add the service id to the context for each tag so that we can pass it back when deleting
+  extendContext: function(service){
+    this.service = {'_id': service._id};
+    return this;
   }
 });
 
@@ -270,6 +275,28 @@ Template.serviceRow.events(okCancelEvents(
     },
     cancel: function () {
       Session.set('editing_servicename', null);
+    }
+  }));
+
+Template.serviceRow.events(okCancelEvents(
+  '.add.service.tag',
+  {
+    ok: function (value, evt) {
+      var service = this;
+
+      var tag = {
+        name: value
+      };
+
+      // Clear input
+      $(evt.currentTarget).val('');
+
+      Meteor.call('addServiceTag', Session.get('currentProject'), service._id, tag, function(error, result){
+        // done
+      });
+    },
+    cancel: function () {
+      // cancel
     }
   }));
 
@@ -290,5 +317,17 @@ Template.serviceRow.events({
     return false;
   }
 });
+
+Template.tag.events({
+  'click .delete.tag.icon': function (event, template){
+    var tag = this;
+    Meteor.call('deleteServiceTag', Session.get('currentProject'), tag.service._id, tag.name, function(error, result){
+      // done
+    });
+    return false;
+  }
+});
+
+
 
 

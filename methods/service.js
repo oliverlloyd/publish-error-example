@@ -38,6 +38,26 @@ Meteor.methods({
     } else {
       throw new Meteor.Error(403, 'You are not allowed to edit this project');
     }
+  },
+  addServiceTag: function(project, serviceid, tag) {
+    check(serviceid, nonEmptyString);
+    check(tag, {name: nonEmptyString});
+
+    if( allowedTo.updateProject(Meteor.user(), project) ){
+      Projects.update({'_id': project._id, 'services._id': serviceid}, {$addToSet:{'services.$.tags': tag}});
+    } else {
+      throw new Meteor.Error(403, 'You are not allowed to edit this project');
+    }
+  },
+  deleteServiceTag: function(project, serviceid, name) {
+    check(serviceid, nonEmptyString);
+    check(name, nonEmptyString);
+
+    if( allowedTo.updateProject(Meteor.user(), project) ){
+      Projects.update({'_id': project._id, 'services._id': serviceid}, {$pull:{'services.$.tags': {name: name}}});
+    } else {
+      throw new Meteor.Error(403, 'You are not allowed to edit this project');
+    }
   }
 });
 

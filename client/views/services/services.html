@@ -124,7 +124,14 @@
 
 <template name="serviceRow">
   <div class="item">
-    <div class="right floated tiny basic ui button">+Tags</div>
+    <div class="small right floated ui input">
+      <input class="add service tag" type="text" placeholder="add tag" />
+    </div>
+    <div class="right floated ui small labels">
+      {{#each tags}}
+        {{> tag extendContext ..}}
+      {{/each}}
+    </div>
     <i class="red circular link remove service icon"></i>
     <div class="content">
       {{#if editing}}
@@ -133,7 +140,14 @@
         <div class="display service name header">{{name}}</div>
       {{/if}}      
       <div class="description">{{describeType this}}</div>  
-    </div>  
+    </div>
+  </div>
+</template>
+
+<template name="tag">
+  <div class="ui label fortag">
+    {{name}}
+    <i class="delete tag icon"></i>
   </div>
 </template>
 
