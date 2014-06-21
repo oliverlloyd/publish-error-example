@@ -146,7 +146,8 @@ var buildService = function(){
   var service = {
     _id: Random.id(), // Give an id to each service so we can reference them in lists
     name: $('#service-name').val(),
-    type: $('.ui.service.type.dropdown').dropdown('get value')
+    type: $('.ui.service.type.dropdown').dropdown('get value'),
+    pursuasion: 'service'
   };
 
   // If it's a list, add the options

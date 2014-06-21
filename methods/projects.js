@@ -62,7 +62,7 @@ var isAcceptable = function(project){
     name: nonEmptyString,
     description: Match.Optional(String),
     public: Match.Optional(Boolean),
-    num: Number,
+    pursuasion: nonEmptyString,
     _id: Match.Optional(nonEmptyString)
   });
 

@@ -55,7 +55,8 @@ Template.newproject.events({
     // Create a project object to submit
     var project = {
       name: template.find("input[name=project-name]").value,
-      description: template.find("input[name=project-description]").value
+      description: template.find("input[name=project-description]").value,
+      pursuasion: 'project'
     };
 
     $('.ui.form.newproject').form('setting', { // http://semantic-ui.com/modules/form.html
