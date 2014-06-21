@@ -256,11 +256,6 @@ Template.serviceRow.helpers({
   },
   editing: function(){
     return Session.equals('editing_servicename', this._id);
-  },
-  // Add the service id to the context for each tag so that we can pass it back when deleting
-  extendContext: function(service){
-    this.service = {'_id': service._id};
-    return this;
   }
 });
 
