@@ -4,7 +4,6 @@
 Template.tag.events({
   'click .delete.tag.icon': function (event, template){
     var tag = this;
-    console.log(tag)
     if ( tag && tag.parent && tag.parent.pursuasion ){
       var callSign = false;
       switch ( tag.parent.pursuasion ){
