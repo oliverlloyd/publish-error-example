@@ -314,16 +314,5 @@ Template.serviceRow.events({
   }
 });
 
-Template.tag.events({
-  'click .delete.tag.icon': function (event, template){
-    var tag = this;
-    Meteor.call('deleteServiceTag', Session.get('currentProject'), tag.service._id, tag.name, function(error, result){
-      // done
-    });
-    return false;
-  }
-});
-
-
 
 
