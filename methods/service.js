@@ -11,6 +11,7 @@ Meteor.methods({
   addService: function(project, service) {
     if ( _.has(service, 'name') ) check(service.name, nonEmptyString);
     if ( _.has(service, 'type') ) check(service.type, nonEmptyString);
+    if ( _.has(service, 'pursuasion') ) check(service.pursuasion, nonEmptyString);
     if ( _.has(service, 'options') ) check(service.options, Array);
 
     if( allowedTo.updateProject(Meteor.user(), project) && isAcceptable(service) ){
@@ -41,20 +42,23 @@ Meteor.methods({
   },
   addServiceTag: function(project, serviceid, tag) {
     check(serviceid, nonEmptyString);
-    check(tag, {name: nonEmptyString});
+    check(tag, {label: nonEmptyString});
 
     if( allowedTo.updateProject(Meteor.user(), project) ){
       Projects.update({'_id': project._id, 'services._id': serviceid}, {$addToSet:{'services.$.tags': tag}});
+      Tags.update({label: tag.label}, tag, {upsert: true}, function(){
+        // done
+      });
     } else {
       throw new Meteor.Error(403, 'You are not allowed to edit this project');
     }
   },
-  deleteServiceTag: function(project, serviceid, name) {
+  deleteServiceTag: function(project, serviceid, label) {
     check(serviceid, nonEmptyString);
-    check(name, nonEmptyString);
+    check(label, nonEmptyString);
 
     if( allowedTo.updateProject(Meteor.user(), project) ){
-      Projects.update({'_id': project._id, 'services._id': serviceid}, {$pull:{'services.$.tags': {name: name}}});
+      Projects.update({'_id': project._id, 'services._id': serviceid}, {$pull:{'services.$.tags': {label: label}}});
     } else {
       throw new Meteor.Error(403, 'You are not allowed to edit this project');
     }

@@ -62,6 +62,24 @@ var activateInput = function (input) {
 };
 
 
+Template.services.created = function() {
+  // Setup our own version of jQuerie's autocomplete - allows us to do things our own way
+  $.widget( "custom.semanticAutocomplete", $.ui.autocomplete, {
+    _renderItem: function( ul, item ) {
+      return $( "<li>" )
+        .addClass( "item" )
+        .append( $( "<a>" ).text( item.label ) )
+        .appendTo( ul );
+    },
+    _renderMenu: function( ul, items ) {
+      var that = this;
+      $.each( items, function( index, item ) {
+        that._renderItemData( ul, item );
+      });
+    }
+  });  
+};
+
 Template.services.rendered = function () {
   // Initialise the type dropdown for creating a new service
   $('.ui.service.type.dropdown').dropdown('set value', 'boolean');
@@ -282,7 +300,7 @@ Template.serviceRow.events(okCancelEvents(
       var service = this;
 
       var tag = {
-        name: value
+        label: value
       };
 
       // Clear input
@@ -315,6 +333,25 @@ Template.serviceRow.events({
     return false;
   }
 });
+
+Template.serviceRow.rendered = function() {
+  initAutocomplete($(this.find('.add.tag')));
+};
+
+var initAutocomplete = function(element){
+  element.semanticAutocomplete({
+    source: function(request, callback){ // callback expects a single argument, the matching array
+      Meteor.call('filterTags', request.term, function(err, result){
+        if (err) {
+          callback([]);
+          console.error(err);
+        } else {
+          callback(result);
+        }
+      });
+    }
+  });
+};
 
 
 

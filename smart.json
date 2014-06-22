@@ -3,7 +3,8 @@
     "iron-router": {},
     "semantic-ui": {},
     "fast-render": {},
-    "moment": {}
+    "moment": {},
     "notifications": {},
+    "jqueryui": {}
   }
 }
