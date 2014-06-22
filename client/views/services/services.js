@@ -74,7 +74,6 @@ Template.services.rendered = function () {
   $('.service.type.example').transition();
 };
 
-
 Template.services.helpers({
   // return all services in an array
   allServices: function(){
@@ -125,7 +124,7 @@ Template.services.events({
     var service = buildService();
     Meteor.call('addService', project, service, function(error, result){
       // done, so reset the page
-      resetServiceExample();
+      resetServiceExample(); 
     });
     return false;
   },
@@ -201,6 +200,8 @@ var showServiceExample = function(type){
     $('.service.example.control.'+type).show();
   }
 };
+
+
 
 Template.serviceRow.helpers({
   isList: function(){
