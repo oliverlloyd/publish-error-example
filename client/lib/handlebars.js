@@ -32,9 +32,3 @@ Handlebars.registerHelper('dateAgo', function(context) {
     return context;   //  moment plugin not available. return data as is.
   }
 });
-
-// Add the service id to the context for each tag so that we can pass it back when deleting
-Handlebars.registerHelper('addParentContext', function(parent) {
-  this.parent = parent;
-  return this;
-});

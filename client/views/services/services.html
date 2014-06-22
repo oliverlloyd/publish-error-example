@@ -123,13 +123,13 @@
 </template>
 
 <template name="serviceRow">
-  <div class="item">
+  <div class="item" data-id="{{_id}}">
     <div class="small right floated ui input">
       <input class="add service tag" type="text" placeholder="add tag" />
     </div>
     <div class="right floated ui small labels">
       {{#each tags}}
-        {{> tag addParentContext ..}}
+        {{> tag}}
       {{/each}}
     </div>
     <i class="red circular link remove service icon"></i>
