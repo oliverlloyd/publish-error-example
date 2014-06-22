@@ -8,10 +8,10 @@ iron-router
 accounts-password
 semantic-ui
 less
-collection-hooks
 fast-render
 accounts-ui
 moment
 force-ssl
 notifications
 jquery
+jqueryui
