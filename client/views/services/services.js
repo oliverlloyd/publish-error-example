@@ -308,6 +308,7 @@ Template.serviceRow.events({
     if ( confirm('Are you sure you want to delete this service?') ){
       Meteor.call('deleteService', Session.get('currentProject'), service._id, function(error, result){
         // done
+        Notifications.info('Service', 'deleted',{timeout: 2000});
       });
     }
     return false;
