@@ -69,6 +69,14 @@
               </div>
             </div>
           </div>
+
+          <div class="field">
+            <div class="ui checkbox">
+              <input class="sticky" id="isSticky" type="checkbox">
+              <label class="sticky" for="isSticky">Sticky?</label>
+            </div>
+          </div>
+
           <div class="ui error message">
             <div class="header">We noticed some issues</div>
           </div>
@@ -137,8 +145,13 @@
       {{#if editing}}
         <input class="edit service name" type="text" value="{{name}}" />
       {{else}}
-        <div class="display service name header">{{name}}</div>
-      {{/if}}      
+        <div class="display service name header">
+          {{name}}
+          {{#if isSticky}}
+            <i class="sticky asterisk icon"></i>
+          {{/if}}
+        </div>
+      {{/if}}
       <div class="description">{{describeType this}}</div>  
     </div>
   </div>

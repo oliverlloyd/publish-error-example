@@ -71,6 +71,7 @@ var isAcceptable = function(service){
     name: nonEmptyString,
     type: nonEmptyString,
     pursuasion: nonEmptyString,
+    sticky: Boolean,
     options: Match.Optional(Array),
     _id: Match.Optional(nonEmptyString)
   });

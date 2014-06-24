@@ -90,6 +90,12 @@ Template.services.rendered = function () {
 
   // Init transitions for displaying the example
   $('.service.type.example').transition();
+
+  $('.sticky').popup({
+    position : 'bottom right',
+    title    : 'Stickyness',
+    content  : 'Each time a sticky service is chosen or a value entered it will become the default for that device. Normally a service will default to the last value chosen for the client'
+  });
 };
 
 Template.services.helpers({
@@ -164,6 +170,7 @@ var buildService = function(){
     _id: Random.id(), // Give an id to each service so we can reference them in lists
     name: $('#service-name').val(),
     type: $('.ui.service.type.dropdown').dropdown('get value'),
+    sticky: $('#isSticky').is(':checked'),
     pursuasion: 'service'
   };
 
@@ -225,6 +232,10 @@ Template.serviceRow.helpers({
   isList: function(){
     var service = this;
     return service.type === 'list';
+  },
+  isSticky: function(){
+    var service = this;
+    return service.sticky;
   },
   firstOption: function(){
     var self = this;
