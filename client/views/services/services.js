@@ -91,11 +91,18 @@ Template.services.rendered = function () {
   // Init transitions for displaying the example
   $('.service.type.example').transition();
 
-  $('.sticky').popup({
+  $('.sticky').each(function(){
+    applyStickyPopup($(this));
+  });
+  
+};
+
+var applyStickyPopup = function(item){
+  item.popup({
     position : 'bottom right',
     title    : 'Stickyness',
     content  : 'Each time a sticky service is chosen or a value entered it will become the default for that device. Normally a service will default to the last value chosen for the client'
-  });
+  });  
 };
 
 Template.services.helpers({
@@ -148,7 +155,8 @@ Template.services.events({
     var service = buildService();
     Meteor.call('addService', project, service, function(error, result){
       // done, so reset the page
-      resetServiceExample(); 
+      resetServiceExample();
+      applyStickyPopup($('.sticky.asterisk.icon').last());
     });
     return false;
   },
