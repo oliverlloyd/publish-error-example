@@ -156,7 +156,10 @@ Template.services.events({
     Meteor.call('addService', project, service, function(error, result){
       // done, so reset the page
       resetServiceExample();
-      applyStickyPopup($('.sticky.asterisk.icon').last());
+
+      // add popup to icon
+      var justAdded = $('.sticky.icon').last();
+      applyStickyPopup(justAdded);
     });
     return false;
   },
