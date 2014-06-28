@@ -162,18 +162,24 @@ Template.services.events({
       applyStickyPopup(justAdded);
     });
     return false;
-  },
-  'click .add.example.option.button': function (event, template) {
-    var optionText = $('#option-text').val();
-    var index = $('.ui.service.example.list.dropdown .item').length;
-    var optionHtml = '<div class="item" data-value="'+index+'">'+optionText+'</div>';
-    $('.ui.service.example.list.dropdown .menu').append($(optionHtml));
-    $('.ui.service.example.list.dropdown').dropdown(); // Reset the dropdown control so it picks up this option
-    $('.ui.service.example.list.dropdown').dropdown('show'); // Show the good work we've done to the user - Ie. open the dropdown
-    $('#option-text').val(''); // reset the option name input
-    return false;
   }
 });
+
+Template.services.events(okCancelEvents(
+  '#option-text',
+  {
+    ok: function (value) {
+      var index = $('.ui.service.example.list.dropdown .item').length;
+      var optionHtml = '<div class="item" data-value="'+index+'">'+value+'</div>';
+      $('.ui.service.example.list.dropdown .menu').append($(optionHtml));
+      $('.ui.service.example.list.dropdown').dropdown(); // Reset the dropdown control so it picks up this option
+      $('.ui.service.example.list.dropdown').dropdown('show'); // Show the good work we've done to the user - Ie. open the dropdown
+      $('#option-text').val(''); // reset the option name input
+    },
+    cancel: function () {
+      $('#option-text').val(''); // reset the option name input
+    }
+  }));
 
 var buildService = function(){
   // Build a basic service based on page controls
