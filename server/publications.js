@@ -13,7 +13,7 @@ Meteor.subscribe('aProject', this.params._id);
 
 Meteor.publish("allProjects", function () {
   return Projects.find(
-    {$or: [{owner: null}, {owner: this.userId}]});
+    {$or: [{$in: {collaborators: this.userId}}, {owner: this.userId}]});
 });
 
 Meteor.publish("aProject", function (id) {
