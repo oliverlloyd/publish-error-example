@@ -396,7 +396,7 @@ var addServiceTag = function(serviceid, tag){
   Meteor.call('addServiceTag', Session.get('currentProject'), serviceid, tag, function(error, result){
     // done
   });  
-}
+};
 
 
 
