@@ -29,6 +29,7 @@ Meteor.methods({
   createProject: function(project) {
     if( allowedTo.createProject(Meteor.user(), project) && isAcceptable(project) ){
       project.owner = this.userId;
+      project.created = Date.now();
       var id = Projects.insert(project);
       return id;
     } else {
@@ -49,6 +50,7 @@ Meteor.methods({
     if ( fields.hasOwnProperty('_id') ) delete fields._id; // This property should never be present
 
     if( allowedTo.updateProject(Meteor.user(), project) ){
+      fields.modified = Date.now();
       Projects.update(project, {$set: fields});
     } else {
       throw new Meteor.Error(403, 'You do not have permission to update this project.');

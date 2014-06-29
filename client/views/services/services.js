@@ -324,19 +324,17 @@ Template.serviceRow.events(okCancelEvents(
 Template.serviceRow.events(okCancelEvents(
   '.add.service.tag',
   {
-    ok: function (value, evt) {
+    ok: function (value, event) {
       var service = this;
-
+      
       var tag = {
         label: value
       };
 
       // Clear input
-      $(evt.currentTarget).val('');
+      $(event.currentTarget).val('');
 
-      Meteor.call('addServiceTag', Session.get('currentProject'), service._id, tag, function(error, result){
-        // done
-      });
+      addServiceTag(service._id, tag);
     },
     cancel: function () {
       // cancel
@@ -371,15 +369,34 @@ var initAutocomplete = function(element){
     source: function(request, callback){ // callback expects a single argument, the matching array
       Meteor.call('filterTags', request.term, function(err, result){
         if (err) {
-          callback([]);
           console.error(err);
+          callback([]);
         } else {
           callback(result);
         }
       });
+    },
+    select: function(event, ui){
+      var tag = ui.item;
+      var serviceid = $(this).closest('.item').data('id');
+      
+      // Clear input
+      $(event.target).val('');
+
+      addServiceTag(serviceid, tag);
+
+      return false; // prevent default
     }
   });
 };
+
+var addServiceTag = function(serviceid, tag){
+  // Autocomplete will add a value property, remove it to keep things tidy; use label instead
+  if ( tag.value ) delete tag.value;
+  Meteor.call('addServiceTag', Session.get('currentProject'), serviceid, tag, function(error, result){
+    // done
+  });  
+}
 
 
 

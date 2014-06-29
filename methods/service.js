@@ -15,8 +15,12 @@ Meteor.methods({
     if ( _.has(service, 'options') ) check(service.options, Array);
 
     if( allowedTo.updateProject(Meteor.user(), project) && isAcceptable(service) ){
-      service.created = Date.now();
-      Projects.update({'_id': project._id}, {$push: {services: service}});
+      var now = Date.now();
+      service.created = now;
+      Projects.update({'_id': project._id}, {
+        $push: {services: service},
+        $set: {modified: now}
+      });
     } else {
       throw new Meteor.Error(403, 'Invalid request');
     }
@@ -26,7 +30,14 @@ Meteor.methods({
     check(serviceid, nonEmptyString);
 
     if( allowedTo.updateProject(Meteor.user(), project) ){
-      Projects.update({'_id': project._id, 'services._id': serviceid}, {$set: {'services.$.name': value}});
+      var now = Date.now();
+      Projects.update({'_id': project._id, 'services._id': serviceid},{
+        $set: {
+          'services.$.name': value,
+          'services.$.modified': now,
+          modified: now
+        }
+      });
     } else {
       throw new Meteor.Error(403, 'You are not allowed to edit this project');
     }
@@ -35,20 +46,39 @@ Meteor.methods({
     check(serviceid, nonEmptyString);
 
     if( allowedTo.updateProject(Meteor.user(), project) ){
-      Projects.update({'_id': project._id}, {$pull: {services: {_id: serviceid}}});
+      var now = Date.now();
+      Projects.update({'_id': project._id}, {
+        $pull: {services: {_id: serviceid}},
+        $set: {modified: now}
+      });
     } else {
       throw new Meteor.Error(403, 'You are not allowed to edit this project');
     }
   },
   addServiceTag: function(project, serviceid, tag) {
     check(serviceid, nonEmptyString);
-    check(tag, {label: nonEmptyString});
+    check(tag, {
+      _id: Match.Optional(nonEmptyString),
+      label: nonEmptyString,
+      value: Match.Optional(nonEmptyString),
+      created: Match.Optional(Number),
+      modified: Match.Optional(Number),
+      applied: Match.Optional(Number)
+    });
 
     if( allowedTo.updateProject(Meteor.user(), project) ){
-      Projects.update({'_id': project._id, 'services._id': serviceid}, {$addToSet:{'services.$.tags': tag}});
-      Tags.update({label: tag.label}, tag, {upsert: true}, function(){
-        // done
+      var now = Date.now();
+      Projects.update({'_id': project._id, 'services._id': serviceid}, {
+        $addToSet:{'services.$.tags': tag.label},
+        $set: {
+          'services.$.modified': now,
+          modified: now
+        }
       });
+      tag.created = tag.created || now;      
+      tag.applied = now;
+      delete tag._id;
+      Tags.update({label: tag.label}, tag, {upsert: true});
     } else {
       throw new Meteor.Error(403, 'You are not allowed to edit this project');
     }
@@ -58,7 +88,14 @@ Meteor.methods({
     check(label, nonEmptyString);
 
     if( allowedTo.updateProject(Meteor.user(), project) ){
-      Projects.update({'_id': project._id, 'services._id': serviceid}, {$pull:{'services.$.tags': {label: label}}});
+      var now = Date.now();
+      Projects.update({'_id': project._id, 'services._id': serviceid}, {
+        $pull:{'services.$.tags': label},
+        $set: {
+          'services.$.modified': now,
+          modified: now
+        }
+      });
     } else {
       throw new Meteor.Error(403, 'You are not allowed to edit this project');
     }
