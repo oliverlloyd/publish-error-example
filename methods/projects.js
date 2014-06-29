@@ -55,6 +55,45 @@ Meteor.methods({
     } else {
       throw new Meteor.Error(403, 'You do not have permission to update this project.');
     }
+  },
+  addCollaborator: function(project, email) {
+    check(arguments, [Match.Any]);
+
+    var getIdFromEmail = function(email){
+      // If they exist already return their id
+      // else return false
+      return 'foo';
+    };
+
+    var invite = function(email){
+      var sendInvite = function(email){
+        // send an email inviting the user to join
+
+        // Include a link that will validate the email address and mark their stub account as active
+      };
+
+      var createStubAccount = function(email){
+        return 'userId';
+      };
+
+      // send an email to this address
+      sendInvite(email);
+
+      // create stub account, to get an id
+      return createStubAccount(email);
+    };
+
+    // get id of user from email
+    var collaboratorId = getIdFromEmail(email) || invite(email);
+
+    if( allowedTo.updateProject(Meteor.user(), project) ){
+      Projects.update({'_id': project._id}, {
+        $addToSet: {'collaborators': collaboratorId},
+        $set: {modified: now}
+      });
+    } else {
+      throw new Meteor.Error(403, 'You do not have permission to update this project.');
+    }
   }
 });
 
