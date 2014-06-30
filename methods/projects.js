@@ -27,9 +27,13 @@ it is a fairly simple function call:
 
 Meteor.methods({
   createProject: function(project) {
-    if( allowedTo.createProject(Meteor.user(), project) && isAcceptable(project) ){
-      project.owner = this.userId;
-      project.created = Date.now();
+    if( allowedTo.createProject(Meteor.userId, project) && isAcceptable(project) ){
+      project.owner = project.owner || {
+        _id: this.userId,
+        email: Meteor.user().emails[0].address
+      };
+      project.collaborators = project.collaborators || [];
+      project.created = project.created || Date.now();
       var id = Projects.insert(project);
       return id;
     } else {
@@ -38,7 +42,7 @@ Meteor.methods({
   },
   removeProject: function(project) {
     check(arguments, [Match.Any]);
-    if( allowedTo.removeProject(Meteor.user(), project) ){
+    if( allowedTo.removeProject(Meteor.userId, project) ){
       Projects.remove({_id: project._id});
     } else {
       throw new Meteor.Error(403, 'You do not have permission to delete this project.');
@@ -49,7 +53,7 @@ Meteor.methods({
     if ( fields.hasOwnProperty('public') ) check(fields.public, Boolean);
     if ( fields.hasOwnProperty('_id') ) delete fields._id; // This property should never be present
 
-    if( allowedTo.updateProject(Meteor.user(), project) ){
+    if( allowedTo.updateProject(Meteor.userId, project) ){
       fields.modified = Date.now();
       Projects.update(project, {$set: fields});
     } else {
@@ -59,37 +63,57 @@ Meteor.methods({
   addCollaborator: function(project, email) {
     check(arguments, [Match.Any]);
 
-    var getIdFromEmail = function(email){
-      // If they exist already return their id
-      // else return false
-      return 'foo';
+    var exists = function(email){
+      // check if they exist already
+      var user = Meteor.users.findOne({'emails.address': email});
+
+      if ( user ) {
+        notify(email);
+        return user._id;
+      } else {
+        return false;
+      }
     };
 
     var invite = function(email){
-      var sendInvite = function(email){
-        // send an email inviting the user to join
-
-        // Include a link that will validate the email address and mark their stub account as active
-      };
-
-      var createStubAccount = function(email){
-        return 'userId';
-      };
-
-      // send an email to this address
-      sendInvite(email);
-
       // create stub account, to get an id
-      return createStubAccount(email);
+      var userId = Accounts.createUser({
+        email: email
+      });
+      
+      // send an email to this address
+      Accounts.sendEnrollmentEmail(userId);
+
+      return userId;
     };
 
-    // get id of user from email
-    var collaboratorId = getIdFromEmail(email) || invite(email);
+    var notify = function(email){
+      // Notify the user that they have been added
+      Email.send({
+        to: email,
+        from: 'no-reply@meteor.com',
+        subject: 'You have been added to the '+project.name+' project on ',
+        text: 'Hi, Blah, blah, you are now a collaborator on ' + project.name
+      });
 
-    if( allowedTo.updateProject(Meteor.user(), project) ){
+      return true;
+    };
+
+    var userId = null;
+    if ( Meteor.isServer ){
+      // send user an email as required
+      userId = exists(email) || invite(email);
+    }
+
+    if( allowedTo.updateProject(this.userId, project) ){ // this.userId is loggedIn user, not proposed collaborator
       Projects.update({'_id': project._id}, {
-        $addToSet: {'collaborators': collaboratorId},
-        $set: {modified: now}
+        $addToSet: {
+          'collaborators': {
+            userId: userId,
+            email: email
+          }
+        },
+        $set: {modified: Date.now()}
       });
     } else {
       throw new Meteor.Error(403, 'You do not have permission to update this project.');
