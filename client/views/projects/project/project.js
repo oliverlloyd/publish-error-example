@@ -40,8 +40,11 @@ Template.project.events({
     var project = this;
     e.preventDefault();
     Meteor.call('removeProject', project, function(error, result){
-      alert('Project deleted.');
-      Router.go('/projects');
+      if ( err ) toastr.error(err.reason);
+      else {
+        alert('Project deleted.');
+        Router.go('/projects');
+      }
     });
   }
 });

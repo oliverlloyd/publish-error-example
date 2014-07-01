@@ -117,18 +117,21 @@ Template.projects.events({
   'click .project.remove': function (event, template) {
     var project = this;
     Meteor.call('removeProject', project, function(error, result){
-      // Check to see if removing this project means the page we're on is now empty
-      // If so, jump back one page
-      var tableLimit = Session.get('tableLimit');
-      var paginationCount = Session.get('paginationCount');
-      var selectedPagination = Session.get('selectedPagination');
-      var skipCount = Session.get('skipCount');
+      if ( err ) toastr.error(err.reason);
+      else {
+        // Check to see if removing this project means the page we're on is now empty
+        // If so, jump back one page
+        var tableLimit = Session.get('tableLimit');
+        var paginationCount = Session.get('paginationCount');
+        var selectedPagination = Session.get('selectedPagination');
+        var skipCount = Session.get('skipCount');
 
-      if ( skipCount === (tableLimit * paginationCount) ){
-        skipCount -= tableLimit;
-        selectedPagination--;
-        if ( skipCount >= 0 ) Session.set('skipCount', skipCount);
-        if ( selectedPagination >= 0 ) Session.set('selectedPagination', selectedPagination);
+        if ( skipCount === (tableLimit * paginationCount) ){
+          skipCount -= tableLimit;
+          selectedPagination--;
+          if ( skipCount >= 0 ) Session.set('skipCount', skipCount);
+          if ( selectedPagination >= 0 ) Session.set('selectedPagination', selectedPagination);
+        }
       }
     });
     return false;

@@ -65,8 +65,11 @@ Template.newproject.events({
       },
       onSuccess    : function(){
         Meteor.call('createProject', project, function(error, id){
-          // at this point we should move on to creating services, not route to the project page
-          Router.go('project',{_id: id});
+          if ( err ) toastr.error(err.reason);
+          else {
+            // at this point we should move on to creating services, not route to the project page
+            Router.go('project',{_id: id});
+          }
         });      
         return false;
       }

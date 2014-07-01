@@ -12,7 +12,7 @@ fast-render
 accounts-ui
 moment
 force-ssl
-notifications
 jquery
 jqueryui
 email
+toastr

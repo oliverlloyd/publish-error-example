@@ -69,8 +69,11 @@ Template.access.events({
     var project = this;
     var email = $('.invitee').val();
     Meteor.call('addCollaborator', project, email, function(error, result){
-      // done, so reset the page
-      $('.invitee').val('');
+      if ( err ) toastr.error(err.reason);
+      else {
+        // done, so reset the page
+        $('.invitee').val('');
+      }
     });
     return false;
   }

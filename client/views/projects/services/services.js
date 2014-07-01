@@ -153,13 +153,16 @@ Template.services.events({
   'click .create.service.button': function (event, template) {
     var project = this;
     var service = buildService();
-    Meteor.call('addService', project, service, function(error, result){
-      // done, so reset the page
-      resetServiceExample();
+    Meteor.call('addService', project, service, function(err, result){
+      if ( err ) toastr.error(err.reason);
+      else {
+        // done, so reset the page
+        resetServiceExample();
 
-      // add popup to icon
-      var justAdded = $('.sticky.icon').last();
-      applyStickyPopup(justAdded);
+        // add popup to icon
+        var justAdded = $('.sticky.icon').last();
+        applyStickyPopup(justAdded);
+      }
     });
     return false;
   }
@@ -313,7 +316,10 @@ Template.serviceRow.events(okCancelEvents(
     ok: function (value) {
       var service = this;
       Meteor.call('updateServiceName', Session.get('currentProject'), service._id, value, function(error, result){
-        Session.set('editing_servicename', null);
+        if ( err ) toastr.error(err.reason);
+        else {
+          Session.set('editing_servicename', null);
+        }
       });
     },
     cancel: function () {
@@ -352,8 +358,11 @@ Template.serviceRow.events({
     var service = this;
     if ( confirm('Are you sure you want to delete this service?') ){
       Meteor.call('deleteService', Session.get('currentProject'), service._id, function(error, result){
-        // done
-        Notifications.info('Service', 'deleted',{timeout: 2000});
+        if ( err ) toastr.error(err.reason);
+        else {
+          // done
+          toastr.info('Service deleted');
+        }
       });
     }
     return false;
@@ -368,11 +377,14 @@ var initAutocomplete = function(element){
   element.semanticAutocomplete({
     source: function(request, callback){ // callback expects a single argument, the matching array
       Meteor.call('filterTags', request.term, function(err, result){
-        if (err) {
-          console.error(err);
-          callback([]);
-        } else {
-          callback(result);
+        if ( err ) toastr.error(err.reason);
+        else {
+          if (err) {
+            console.error(err);
+            callback([]);
+          } else {
+            callback(result);
+          }
         }
       });
     },
@@ -394,7 +406,10 @@ var addServiceTag = function(serviceid, tag){
   // Autocomplete will add a value property, remove it to keep things tidy; use label instead
   if ( tag.value ) delete tag.value;
   Meteor.call('addServiceTag', Session.get('currentProject'), serviceid, tag, function(error, result){
-    // done
+      if ( err ) toastr.error(err.reason);
+      else {
+        // done
+      }
   });  
 };
 
