@@ -13,8 +13,8 @@ Meteor.methods({
     if ( _.has(service, 'type') ) check(service.type, nonEmptyString);
     if ( _.has(service, 'pursuasion') ) check(service.pursuasion, nonEmptyString);
     if ( _.has(service, 'options') ) check(service.options, Array);
-
-    if( allowedTo.updateProject(Meteor.userId, project) && isAcceptable(service) ){
+    
+    if( allowedTo.updateProject(Meteor.userId(), project) && isAcceptable(service) ){
       var now = Date.now();
       service.created = now;
       Projects.update({'_id': project._id}, {
@@ -29,7 +29,7 @@ Meteor.methods({
     check(value, nonEmptyString);
     check(serviceid, nonEmptyString);
 
-    if( allowedTo.updateProject(Meteor.userId, project) ){
+    if( allowedTo.updateProject(Meteor.userId(), project) ){
       var now = Date.now();
       Projects.update({'_id': project._id, 'services._id': serviceid},{
         $set: {
@@ -45,7 +45,7 @@ Meteor.methods({
   deleteService: function(project, serviceid) {
     check(serviceid, nonEmptyString);
 
-    if( allowedTo.updateProject(Meteor.userId, project) ){
+    if( allowedTo.updateProject(Meteor.userId(), project) ){
       var now = Date.now();
       Projects.update({'_id': project._id}, {
         $pull: {services: {_id: serviceid}},
@@ -66,7 +66,7 @@ Meteor.methods({
       applied: Match.Optional(Number)
     });
 
-    if( allowedTo.updateProject(Meteor.userId, project) ){
+    if( allowedTo.updateProject(Meteor.userId(), project) ){
       var now = Date.now();
       Projects.update({'_id': project._id, 'services._id': serviceid}, {
         $addToSet:{'services.$.tags': tag.label},
@@ -87,7 +87,7 @@ Meteor.methods({
     check(serviceid, nonEmptyString);
     check(label, nonEmptyString);
 
-    if( allowedTo.updateProject(Meteor.userId, project) ){
+    if( allowedTo.updateProject(Meteor.userId(), project) ){
       var now = Date.now();
       Projects.update({'_id': project._id, 'services._id': serviceid}, {
         $pull:{'services.$.tags': label},

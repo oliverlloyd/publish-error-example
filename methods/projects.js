@@ -27,7 +27,7 @@ it is a fairly simple function call:
 
 Meteor.methods({
   createProject: function(project) {
-    if( allowedTo.createProject(Meteor.userId, project) && isAcceptable(project) ){
+    if( allowedTo.createProject(Meteor.userId(), project) && isAcceptable(project) ){
       project.owner = project.owner || {
         _id: this.userId,
         email: Meteor.user().emails[0].address
@@ -42,7 +42,7 @@ Meteor.methods({
   },
   removeProject: function(project) {
     check(arguments, [Match.Any]);
-    if( allowedTo.removeProject(Meteor.userId, project) ){
+    if( allowedTo.removeProject(Meteor.userId(), project) ){
       Projects.remove({_id: project._id});
     } else {
       throw new Meteor.Error(403, 'You do not have permission to delete this project.');
@@ -53,7 +53,7 @@ Meteor.methods({
     if ( fields.hasOwnProperty('public') ) check(fields.public, Boolean);
     if ( fields.hasOwnProperty('_id') ) delete fields._id; // This property should never be present
 
-    if( allowedTo.updateProject(Meteor.userId, project) ){
+    if( allowedTo.updateProject(Meteor.userId(), project) ){
       fields.modified = Date.now();
       Projects.update(project, {$set: fields});
     } else {
