@@ -116,7 +116,7 @@ Template.projects.events({
   },
   'click .project.remove': function (event, template) {
     var project = this;
-    Meteor.call('removeProject', project, function(error, result){
+    Meteor.call('removeProject', project, function(err, result){
       if ( err ) toastr.error(err.reason);
       else {
         // Check to see if removing this project means the page we're on is now empty
