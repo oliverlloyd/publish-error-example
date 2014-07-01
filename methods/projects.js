@@ -27,17 +27,22 @@ it is a fairly simple function call:
 
 Meteor.methods({
   createProject: function(project) {
-    if( allowedTo.createProject(Meteor.userId(), project) && isAcceptable(project) ){
-      project.owner = project.owner || {
-        _id: this.userId,
-        email: Meteor.user().emails[0].address
-      };
-      project.collaborators = project.collaborators || [];
-      project.created = project.created || Date.now();
-      var id = Projects.insert(project);
-      return id;
+    var user = Meteor.user();
+    if (user && user.emails) {
+      if( allowedTo.createProject(Meteor.userId(), project) && isAcceptable(project) ){   
+        project.owner = project.owner || {
+          _id: this.userId,
+          email: user.emails[0].address
+        };
+        project.collaborators = project.collaborators || [];
+        project.created = project.created || Date.now();
+        var id = Projects.insert(project);
+        return id;
+      } else {
+        throw new Meteor.Error(400, 'Invalid request');
+      }
     } else {
-      throw new Meteor.Error(403, 'Invalid request');
+      throw new Meteor.Error(403, "You must be logged in");
     }
   },
   removeProject: function(project) {

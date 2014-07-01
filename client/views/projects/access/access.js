@@ -48,7 +48,11 @@ Template.owner.helpers({
 Template.collaborator.helpers({
   // return true if this collaborator is the owner
   isYou: function(project){
-    return this.email === Meteor.user().emails[0].address;
+    var user = Meteor.user();
+    if (user && user.emails) 
+      return this.email === user.emails[0].address;
+    else
+      return false;
   },
   // return true if this user is the owner
   isOwner: function(project){
@@ -57,7 +61,11 @@ Template.collaborator.helpers({
 });
 
 var ownsThisProject = function(project){
-  return Meteor.user().emails[0].address === project.owner.email;
+  var user = Meteor.user();
+  if (user && user.emails) 
+    return user.emails[0].address === project.owner.email;
+  else
+    return false;
 };
 
 Template.access.rendered = function () {
