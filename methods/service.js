@@ -13,7 +13,7 @@ Meteor.methods({
     if ( _.has(service, 'type') ) check(service.type, nonEmptyString);
     if ( _.has(service, 'pursuasion') ) check(service.pursuasion, nonEmptyString);
     if ( _.has(service, 'options') ) check(service.options, Array);
-    
+
     if( allowedTo.updateProject(Meteor.userId(), project) && isAcceptable(service) ){
       var now = Date.now();
       service.created = now;
@@ -22,7 +22,7 @@ Meteor.methods({
         $set: {modified: now}
       });
     } else {
-      throw new Meteor.Error(403, 'Invalid request');
+      throw new Meteor.Error(400, 'Invalid request');
     }
   },
   updateServiceName: function(project, serviceid, value) {
@@ -116,9 +116,9 @@ var isAcceptable = function(service){
   if (service.name.length > 20 )
     throw new Meteor.Error(413, "Name too long");
   if ( service.name.length < 2 )
-    throw new Meteor.Error(413, "Name too short, it should be greater than 2 characters");
+    throw new Meteor.Error(400, "Name too short, it should be greater than 2 characters");
   if ( service.options && service.options.length < 1 )
-    throw new Meteor.Error(413, "No options, you must supply at least one option for a list");
+    throw new Meteor.Error(400, "No options, you must supply at least one option for a list");
   if (! Meteor.user())
     throw new Meteor.Error(403, "You must be logged in");
   else 

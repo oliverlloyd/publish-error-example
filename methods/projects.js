@@ -139,7 +139,7 @@ var isAcceptable = function(project){
   if (project.name.length > 64 )
     throw new Meteor.Error(413, "Name too long");
   if ( project.name.length < 3 )
-    throw new Meteor.Error(413, "Name too short, it should be greater than 3 characters");
+    throw new Meteor.Error(400, "Name too short, it should be greater than 3 characters");
   if (! Meteor.user())
     throw new Meteor.Error(403, "You must be logged in");
   else 
