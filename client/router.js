@@ -10,7 +10,6 @@ Individual routes are stored in each pages corresponding .js file
 
 // Config
 Router.configure({
-  layoutTemplate: 'layout',
   loadingTemplate: 'loading',
   notFoundTemplate: 'notFound',
 });

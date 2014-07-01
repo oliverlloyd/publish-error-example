@@ -1,17 +1,21 @@
 
-<template name="access">
+<template name="collaborators">
   {{#with project}}
-    <!-- List users with access -->
     <div class="one column row">
       <div class="column">
+        <span class="collaborators title">{{titleText}}</span>
+      </div>
+    </div>
 
+    <!-- List users with access -->
+    <div class="one column row {{isFirstRow}}">
+      <div class="column">
         <div class="ui collaborators list">
           {{> owner}}
           {{#each allCollaborators }}
             {{> collaborator }}
           {{/each}}
         </div>
-
       </div>
     </div>
 
@@ -19,12 +23,30 @@
       <!-- Invite new user -->
       <div class="one column row">
         <div class="column">
-          <div class="ui list">
-            <div class="ui mini icon input">
-              <input class="invitee" type="text" placeholder="someone@example.com">
-              <i class="add icon"></i>
+          <div class="ui horizontal icon divider">
+            <i class="add sign icon"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="one column row {{isFirstRow}}">
+        <div class="column">
+          <span class="title">{{inviteText}}</span>
+        </div>
+      </div>
+
+      <div class="one column row">
+        <div class="column">
+          <div class="ui stackable grid">
+            <div class="eight wide column">
+              <div class="ui icon fluid input">
+                <input class="invitee" type="text" placeholder="someone@example.com">
+                <i class="add icon"></i>
+              </div>
             </div>
-            <div class="ui mini invite button floated right">Invite</div>
+            <div class="six wide column">
+              <div class="ui basic invite button">Invite</div>
+            </div>
           </div>
         </div>
       </div>

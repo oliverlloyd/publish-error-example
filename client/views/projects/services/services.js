@@ -7,6 +7,11 @@ Session.setDefault('editing_servicename', null);
 Router.map(function() {
   this.route('services', {
     path: '/projects/:_id/services',
+    layoutTemplate: 'project',
+    yieldTemplates: {
+      'footer': {to: 'footer'},
+      'header': {to: 'header'}
+    },
     waitOn: function () {
       return Meteor.subscribe('aProject', this.params._id);
     },
@@ -111,20 +116,33 @@ Template.services.helpers({
     var self = this;
     return self.services;
   },
-  // construct a string to title the page with if we have services
-  servicesTitle: function(){
-    var self = this;
-    var length = self.services ? self.services.length : 0;
-    var title = length;
-    if ( length === 1 ) title += ' Service';
-    else title += ' Services';
-    title += ' | ' + self.name;
-    return title;
-  },
   // returns true is there is at least one service
   atLeastOneService: function(){
     var self = this;
     return self.services && self.services.length > 0;
+  },
+  createText: function(){
+    var self = this;
+    var length = self.services ? self.services.length : 0;
+    switch (length){
+      case 0: return "";
+      case 1: return "That's 1, more?";
+      case 2: return "Add another?";
+      default: return "Add a service";
+    }
+  },
+  titleText: function(){
+    var self = this;
+    var length = self.services ? self.services.length : 0;
+    if ( length === 0 ) return "You don't have any services, create one?";
+    else if ( length === 1 ) return "This project has one service";
+    else return "You have " + length + " services";
+  },
+  isFirstRow: function(){
+    var self = this;
+    var length = self.services ? self.services.length : 0;
+    if ( length === 0 ) return 'first-row';
+    return false;
   }
 });
 
@@ -315,7 +333,7 @@ Template.serviceRow.events(okCancelEvents(
   {
     ok: function (value) {
       var service = this;
-      Meteor.call('updateServiceName', Session.get('currentProject'), service._id, value, function(error, result){
+      Meteor.call('updateServiceName', Session.get('currentProject'), service._id, value, function(err, result){
         if ( err ) toastr.error(err.reason);
         else {
           Session.set('editing_servicename', null);
@@ -357,7 +375,7 @@ Template.serviceRow.events({
   'click .remove.service.icon': function (event, template){
     var service = this;
     if ( confirm('Are you sure you want to delete this service?') ){
-      Meteor.call('deleteService', Session.get('currentProject'), service._id, function(error, result){
+      Meteor.call('deleteService', Session.get('currentProject'), service._id, function(err, result){
         if ( err ) toastr.error(err.reason);
         else {
           // done
@@ -405,7 +423,7 @@ var initAutocomplete = function(element){
 var addServiceTag = function(serviceid, tag){
   // Autocomplete will add a value property, remove it to keep things tidy; use label instead
   if ( tag.value ) delete tag.value;
-  Meteor.call('addServiceTag', Session.get('currentProject'), serviceid, tag, function(error, result){
+  Meteor.call('addServiceTag', Session.get('currentProject'), serviceid, tag, function(err, result){
       if ( err ) toastr.error(err.reason);
       else {
         // done

@@ -1,35 +1,66 @@
-<!-- 
-  See router.js. A subscription to the specific record in the db is made when this 
-  /project/ID route is called and this template is rendered using the result of 
-  that query/subscription.
-  The data changes live in response to any data changes in the db.
--->
+
 <template name="project">
-  {{#with project}}
-  <div class="one column row">
-    <div class="column">
-      <span class="centered project name">{{name}}</span>
+  <div class="application wrapper">
+
+    <div class="header">
+      <div class="ui grid">
+        {{>yield region='header'}}
+      </div>
+    </div>
+    <div class="content-wrapper">
+      {{#with project}}
+        <!-- Header row -->
+        <div class="ui stackable grid">
+          <div class="eight wide column">
+            <h2 class="ui block header">Project: {{name}}</h2>
+          </div>
+          <div class="eight wide column">
+            <h2 class="ui block header page floated right">{{currentPage}}</h2>
+          </div>          
+        </div>
+
+        <div class="ui divider"></div>
+
+        <!-- Main content -->
+        <div class="ui stackable grid">
+          <!-- Sidebar area -->
+          <div class="four wide column">
+            <div class="ui grid">      
+              <div class="ui vertical fluid pointing menu">
+                <a class="{{servicesMenuActive}} project menu item" href="{{pathFor "services"}}">
+                  <i class="tablet icon"></i> Services ({{serviceCount}})
+                </a>
+                <a class="{{questionnaireMenuActive}} project menu item" href="{{pathFor "questionnaire"}}">
+                  <i class="pencil icon"></i> Questionnaire ({{questionnaireCount}})
+                </a>
+                <a class="{{collaboratorsMenuActive}} project menu item" href="{{pathFor "collaborators"}}">
+                  <i class="lock icon"></i> Collaborators ({{collaboratorCount}})
+                </a>
+              </div>
+              <div class="one column row">
+                <div class="column">
+                  <div class="ui delete project fluid basic button">Delete project</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Main layout body, services, colabs, questionnaires, etc. go here -->
+          <div class="twelve wide column">
+            <div class="ui grid">
+              {{> yield}}
+            </div>
+          </div>
+
+        </div>
+      {{/with}}
+    </div>
+    <div class="push"></div>
+  </div>  
+
+  <div class="footer-wrapper">
+    <div class="ui grid footer-grid">
+      {{>yield region='footer'}}
     </div>
   </div>
-  <div class="one column row">
-    <div class="column">
-      <a class="ui huge basic centered button" href="{{pathFor "questionnaire"}}">Questionnaire</a>
-    </div>
-  </div>
-  <div class="one column row">
-    <div class="column">
-      <a class="ui huge basic centered button" href="{{pathFor "services"}}">Services</a>
-    </div>
-  </div>
-  <div class="one column row">
-    <div class="column">
-      <a class="ui huge basic centered button" href="{{pathFor "access"}}">Access</a>
-    </div>
-  </div>
-  <div class="one column row">
-    <div class="column">
-      <h5><a href="#" class="delete">Delete</a></h5>
-    </div>
-  </div>
-  {{/with}}
 </template>

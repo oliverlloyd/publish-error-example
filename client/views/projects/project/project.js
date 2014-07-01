@@ -5,46 +5,74 @@
 Code related to the project template
 
 /+ ---------------------------------------------------- */
-Router.map(function() {
-  this.route('project', {
-    path: '/projects/:_id',
-    waitOn: function () {
-      return Meteor.subscribe('aProject', this.params._id);
-    },
-    data: function () {
-      return {
-        project: Projects.findOne(this.params._id)
-      };
-    }
-  });
-});
 
 Template.project.created = function () {
   //
 };
 
 Template.project.helpers({
-  
-  myHelper: function () {
-    //
+  servicesMenuActive: function(){
+    var current = Router.current();
+    if( current && getPage(current.path) === 'services' ){
+      return "active";
+    }
+  },
+  questionnaireMenuActive: function(){
+    var current = Router.current();
+    if( current && getPage(current.path) === 'questionnaire' ){
+      return "active";
+    }
+  },
+  collaboratorsMenuActive: function(){
+    var current = Router.current();
+    if( current && getPage(current.path) === 'collaborators' ){
+      return "active";
+    }
+  },
+  currentPage: function(){
+    return getPage(Router.current().path);
+  },
+  // returns a count of services
+  serviceCount: function(){
+    var self = this;
+    var length = self.services ? self.services.length : 0;
+    return length;
+  },
+  // counts collaborators
+  collaboratorCount: function(){
+    var self = this;
+    var length = self.collaborators ? self.collaborators.length : 0;
+    return length;
+  },
+  // counts collaborators
+  questionnaireCount: function(){
+    var self = this;
+    var length = self.questionnaires ? self.questionnaires.length : 0;
+    return length;
   }
-
 });
+
+var getPage = function(path){
+  var items = path.split('/');
+  return _.last(items);
+};
 
 Template.project.rendered = function () {
   //
 };
 
 Template.project.events({
-  'click .delete': function(e, instance){
+  'click .delete.project': function(e, instance){
     var project = this;
-    e.preventDefault();
-    Meteor.call('removeProject', project, function(error, result){
-      if ( err ) toastr.error(err.reason);
-      else {
-        alert('Project deleted.');
-        Router.go('/projects');
-      }
-    });
+    if ( confirm('Are you sure you want to delete project ' + project.name + '?') ) {
+      Meteor.call('removeProject', project, function(err, result){
+        if ( err ) toastr.error(err.reason);
+        else {
+          toastr.info('Project deleted.');
+          Router.go('/projects');
+        }
+      });
+    }
+    return false;
   }
 });

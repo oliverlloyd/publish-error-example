@@ -15,6 +15,11 @@ Session.setDefault('skipCount', 0);
 
 Router.map(function() {
   this.route('projects', {
+    layoutTemplate: 'layout',
+    yieldTemplates: {
+      'footer': {to: 'footer'},
+      'header': {to: 'header'}
+    },
     waitOn: function () {
       return Meteor.subscribe('allProjects');
     },

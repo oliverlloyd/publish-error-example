@@ -39,7 +39,7 @@ Template.header.helpers({
     if( current && current.path === '/projects' ){
       return "active";
     }
-  },
+  }
 });
 
 // Template.mytemplate.rendered = function() {

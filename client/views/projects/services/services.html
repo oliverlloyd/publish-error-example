@@ -1,11 +1,13 @@
 <template name="services">
   {{#with project}}
-    {{#if atLeastOneService}}
-      <div class="one column row">
-        <div class="column">
-          <span class="centered project name">{{servicesTitle}}</span>
-        </div>
+    <!-- Page title -->
+    <div class="one column row ">
+      <div class="column">
+        <span class="title">{{titleText}}</span>
       </div>
+    </div>
+
+    {{#if atLeastOneService}}
       <div class="one column row">
         <div class="column">
 
@@ -31,7 +33,7 @@
     <!-- Create New Service -->
     <div class="one column row">
       <div class="column">
-        <span class="centered project name">Create New</span>
+        <span class="title">{{createText}}</span>
       </div>
     </div>
     <div class="one column row">
@@ -39,7 +41,7 @@
         <div class="ui form newservice" style="display: block;">
           <div class="field">
             <label>What is this query called?</label>
-            <div class="ui centered labeled input">
+            <div class="ui labeled input">
               <input id="service-name" name="service-name" type="text" placeholder="Keep this short and simple">
               <div class="ui corner label">
                 <i class="icon asterisk"></i>
@@ -119,7 +121,7 @@
     </div>
     <div class="one column row">
       <div class="column">
-        <div class="ui service create service basic huge button centered">Create</div>
+        <div class="ui service create service basic huge button">Create</div>
       </div>
     </div>
     <!-- ============== -->

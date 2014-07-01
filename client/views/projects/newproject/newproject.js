@@ -8,7 +8,12 @@ Code related to the newproject template
 
 Router.map(function() {
   this.route('newproject', {
-    path: '/projects/new'
+    path: '/projects/new',
+    layoutTemplate: 'layout',
+    yieldTemplates: {
+      'footer': {to: 'footer'},
+      'header': {to: 'header'}
+    }
   });
 });
 
@@ -64,11 +69,11 @@ Template.newproject.events({
         return false;
       },
       onSuccess    : function(){
-        Meteor.call('createProject', project, function(error, id){
+        Meteor.call('createProject', project, function(err, id){
           if ( err ) toastr.error(err.reason);
           else {
             // at this point we should move on to creating services, not route to the project page
-            Router.go('project',{_id: id});
+            Router.go('services',{_id: id});
           }
         });      
         return false;
