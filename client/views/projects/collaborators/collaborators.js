@@ -106,8 +106,7 @@ Template.collaborators.events({
 
 Template.collaborator.events({
   'click .remove.collaborator': function (event, template) {
-    var collaborator = this;
-    Meteor.call('removeCollaborator', Session.get('currentProject'), collaborator, function(err, result){
+    Meteor.call('removeCollaborator', this.project, this.collaborator, function(err, result){
       if ( err ) toastr.error(err.reason);
       else {
         // done

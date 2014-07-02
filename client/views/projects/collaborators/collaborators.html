@@ -13,7 +13,9 @@
         <div class="ui collaborators list">
           {{> owner}}
           {{#each allCollaborators }}
-            {{> collaborator }}
+            {{#with collaborator=this project=..}}
+              {{> collaborator }}
+            {{/with}}
           {{/each}}
         </div>
       </div>
@@ -76,11 +78,11 @@
 <template name="collaborator">
   <div class="item">
     <i class="ui user icon"></i>
-    {{#if isOwner ..}}
+    {{#if isOwner project}}
       <i class="red circular link remove collaborator icon right floated"></i>
     {{/if}}
     <div class="content">
-      <div class="header">{{email}}</div>
+      <div class="header">{{collaborator.email}}</div>
       {{#if isYou ..}}
         <div class="description">Collaborator (you)</div>
       {{else}}
