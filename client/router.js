@@ -14,10 +14,6 @@ Router.configure({
   notFoundTemplate: 'notFound',
 });
 
-// Required to show loading template
-// See: http://stackoverflow.com/a/23419313/1233018
-Router.onBeforeAction('loading');
-
 // Filters
 var mustBeSignedIn = function(pause) {
   if (!(Meteor.user() || Meteor.loggingIn())) {
@@ -35,3 +31,8 @@ var goToProjects = function(pause) {
   }
 };
 Router.onBeforeAction(goToProjects, {only: ['homepage']});
+
+
+// Required to show loading template
+// See: http://stackoverflow.com/a/23419313/1233018
+Router.onBeforeAction('loading');
