@@ -1,4 +1,4 @@
-rewrite title text for non owners
+
 restyle create project form
 add questionnaires
 style notification and invite emails
