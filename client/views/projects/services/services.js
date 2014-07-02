@@ -146,7 +146,7 @@ Template.services.helpers({
   isFirstRow: function(){
     var project = this;
     var length = project.services ? project.services.length : 0;
-    if ( length === 0 ) return 'first-row';
+    if ( length < 2 ) return 'first-row';
     return false;
   },
   // return true if this user is the owner

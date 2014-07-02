@@ -123,6 +123,18 @@ Meteor.methods({
     } else {
       throw new Meteor.Error(403, 'You do not have permission to update this project.');
     }
+  },
+  removeCollaborator: function(project, collaborator) {
+    check(arguments, [Match.Any]);
+    
+    if( allowedTo.updateProject(this.userId, project) ){
+      Projects.update({'_id': project._id}, {
+        $pull: {'collaborators': {userId: collaborator.userId}},
+        $set: {modified: Date.now()}
+      });
+    } else {
+      throw new Meteor.Error(403, 'You do not have permission to update this project.');
+    }
   }
 });
 

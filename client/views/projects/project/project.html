@@ -22,37 +22,40 @@
         <div class="ui divider"></div>
 
         <!-- Main content -->
-        <div class="ui stackable grid">
+        <!-- <div class="ui stackable grid"> -->
+
+          <!-- Main layout body, services, colabs, questionnaires, etc. go here -->
+          <!-- <div class="twelve wide column"> -->
+
+            <div class="ui centered tabular menu">
+              <a class="{{servicesMenuActive}} project menu item" href="{{pathFor "services"}}">
+                <i class="tablet icon"></i> Services ({{serviceCount}})
+              </a>
+              <a class="{{questionnaireMenuActive}} project menu item" href="{{pathFor "questionnaire"}}">
+                <i class="pencil icon"></i> Questionnaire ({{questionnaireCount}})
+              </a>
+              <a class="{{collaboratorsMenuActive}} project menu item" href="{{pathFor "collaborators"}}">
+                <i class="lock icon"></i> Collaborators ({{collaboratorCount}})
+              </a>
+            </div>
+
+            <div class="ui grid">
+              {{> yield}}
+            </div>
+          <!-- </div> -->
+
           <!-- Sidebar area -->
-          <div class="four wide column">
-            <div class="ui grid">      
-              <div class="ui vertical fluid pointing menu">
-                <a class="{{servicesMenuActive}} project menu item" href="{{pathFor "services"}}">
-                  <i class="tablet icon"></i> Services ({{serviceCount}})
-                </a>
-                <a class="{{questionnaireMenuActive}} project menu item" href="{{pathFor "questionnaire"}}">
-                  <i class="pencil icon"></i> Questionnaire ({{questionnaireCount}})
-                </a>
-                <a class="{{collaboratorsMenuActive}} project menu item" href="{{pathFor "collaborators"}}">
-                  <i class="lock icon"></i> Collaborators ({{collaboratorCount}})
-                </a>
-              </div>
+          <!-- <div class="four wide column"> -->
+<!--             <div class="ui grid">      
               <div class="one column row">
                 <div class="column">
                   <div class="ui delete project fluid basic button">Delete project</div>
                 </div>
               </div>
-            </div>
-          </div>
+            </div> -->
+          <!-- </div> -->
 
-          <!-- Main layout body, services, colabs, questionnaires, etc. go here -->
-          <div class="twelve wide column">
-            <div class="ui grid">
-              {{> yield}}
-            </div>
-          </div>
-
-        </div>
+        <!-- </div> -->
       {{/with}}
     </div>
     <div class="push"></div>

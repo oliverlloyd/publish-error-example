@@ -60,12 +60,6 @@ Template.collaborators.helpers({
       case 2: return "Collaborators can view and record visits";
       default: return "Add a collaborator";
     }
-  },
-  isFirstRow: function(){
-    var project = this;
-    var length = project.collaborators ? project.collaborators.length : 0;
-    if ( length === 0 ) return 'first-row';
-    return false;
   }
 });
 
@@ -73,12 +67,6 @@ Template.owner.helpers({
   // return true if this user is the owner
   isOwner: function(project){
     return ownsThisProject(project);
-  },
-  isFirstRow: function(){
-    var project = this;
-    var length = project.collaborators ? project.collaborators.length : 0;
-    if ( length === 0 ) return 'first-row';
-    return false;
   }
 });
 
@@ -110,6 +98,19 @@ Template.collaborators.events({
       else {
         // done, so reset the page
         $('.invitee').val('');
+      }
+    });
+    return false;
+  }
+});
+
+Template.collaborator.events({
+  'click .remove.collaborator': function (event, template) {
+    var collaborator = this;
+    Meteor.call('removeCollaborator', Session.get('currentProject'), collaborator, function(err, result){
+      if ( err ) toastr.error(err.reason);
+      else {
+        // done
       }
     });
     return false;
