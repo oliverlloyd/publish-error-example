@@ -34,24 +34,26 @@ Router.map(function() {
 Template.collaborators.helpers({
   // return all collaborators in an array
   allCollaborators: function(){
-    var self = this;
-    return self.collaborators;
+    var project = this;
+    return project.collaborators;
   },
   // return true if this user is the owner
   isOwner: function(project){
     return ownsThisProject(project);
   },
   titleText: function(){
-    var self = this;
-    var length = self.collaborators ? self.collaborators.length : 0;
+    var project = this;
+    var length = project.collaborators ? project.collaborators.length : 0;
     if ( length === 0 ) return "It's just you, invite someone to join?";
-    else if ( length === 1 ) return "It\'s you and one other";
-    else if ( length > 1 ) return "This project has " + length + " collaborators";
+    else if ( length === 1 ) {
+      if ( ownsThisProject(project) ) return "It\'s you and one other";
+      else return "You are the only collaborator";
+    } else if ( length > 1 ) return "This project has " + length + " collaborators";
     else return "";
   },
   inviteText: function(){
-    var self = this;
-    var length = self.collaborators ? self.collaborators.length : 0;
+    var project = this;
+    var length = project.collaborators ? project.collaborators.length : 0;
     switch (length){
       case 0: return "Enter the email for the person to invite";
       case 1: return "Invite someone else?";
@@ -60,8 +62,8 @@ Template.collaborators.helpers({
     }
   },
   isFirstRow: function(){
-    var self = this;
-    var length = self.collaborators ? self.collaborators.length : 0;
+    var project = this;
+    var length = project.collaborators ? project.collaborators.length : 0;
     if ( length === 0 ) return 'first-row';
     return false;
   }
@@ -73,8 +75,8 @@ Template.owner.helpers({
     return ownsThisProject(project);
   },
   isFirstRow: function(){
-    var self = this;
-    var length = self.collaborators ? self.collaborators.length : 0;
+    var project = this;
+    var length = project.collaborators ? project.collaborators.length : 0;
     if ( length === 0 ) return 'first-row';
     return false;
   }
@@ -94,14 +96,6 @@ Template.collaborator.helpers({
     return ownsThisProject(project);
   }
 });
-
-var ownsThisProject = function(project){
-  var user = Meteor.user();
-  if (user && user.emails) 
-    return user.emails[0].address === project.owner.email;
-  else
-    return false;
-};
 
 Template.collaborators.rendered = function () {
 

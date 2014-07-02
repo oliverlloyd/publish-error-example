@@ -21,14 +21,14 @@ Router.onBeforeAction('loading');
 // Filters
 var mustBeSignedIn = function(pause) {
   if (!(Meteor.user() || Meteor.loggingIn())) {
-    Router.go('homepage');
+    this.redirect('homepage');
     pause();
   }
 };
 
 var goToProjects = function(pause) {
   if (Meteor.user()) {
-    Router.go('projects');
+    this.redirect('projects');
     pause();
   }
 };

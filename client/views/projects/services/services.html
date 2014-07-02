@@ -31,99 +31,101 @@
     {{/if}}
 
     <!-- Create New Service -->
-    <div class="one column row">
-      <div class="column">
-        <span class="title">{{createText}}</span>
+    {{#if isOwner this}}
+      <div class="one column row">
+        <div class="column">
+          <span class="title">{{createText}}</span>
+        </div>
       </div>
-    </div>
-    <div class="one column row">
-      <div class="column">
-        <div class="ui form newservice" style="display: block;">
-          <div class="field">
-            <label>What is this query called?</label>
-            <div class="ui labeled input">
-              <input id="service-name" name="service-name" type="text" placeholder="Keep this short and simple">
-              <div class="ui corner label">
-                <i class="icon asterisk"></i>
-              </div>
-            </div>
-          </div>
-          <div class="ui two fields">
+      <div class="one column row">
+        <div class="column">
+          <div class="ui form newservice" style="display: block;">
             <div class="field">
-              <label>What type of response do you want?</label>
-              <div class="ui service type selection dropdown">
-                <input id="service-type" class="service type" type="hidden" name="service-type">
-                <div class="default text">a Simple Yes/No</div>
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                  <div class="item active" data-value="boolean">Simple Yes/No</div>
-                  <div class="item" data-value="list">A choice from a list of options</div>
-                  <div class="item" data-value="number">They should enter a number</div>
-                  <div class="item" data-value="text">Some text</div>
+              <label>What is this query called?</label>
+              <div class="ui labeled input">
+                <input id="service-name" name="service-name" type="text" placeholder="Keep this short and simple">
+                <div class="ui corner label">
+                  <i class="icon asterisk"></i>
                 </div>
               </div>
             </div>
-            <div class="field service example control list">
-              <label>Add some options:</label>
-              <input id="option-text" type="text" placeholder="Enter option name">
+            <div class="ui two fields">
+              <div class="field">
+                <label>What type of response do you want?</label>
+                <div class="ui service type selection dropdown">
+                  <input id="service-type" class="service type" type="hidden" name="service-type">
+                  <div class="default text">a Simple Yes/No</div>
+                  <i class="dropdown icon"></i>
+                  <div class="menu">
+                    <div class="item active" data-value="boolean">Simple Yes/No</div>
+                    <div class="item" data-value="list">A choice from a list of options</div>
+                    <div class="item" data-value="number">They should enter a number</div>
+                    <div class="item" data-value="text">Some text</div>
+                  </div>
+                </div>
+              </div>
+              <div class="field service example control list">
+                <label>Add some options:</label>
+                <input id="option-text" type="text" placeholder="Enter option name">
+              </div>
             </div>
-          </div>
 
-          <div class="field">
-            <div class="ui checkbox">
-              <input class="sticky" id="isSticky" type="checkbox">
-              <label class="sticky" for="isSticky">Sticky?</label>
+            <div class="field">
+              <div class="ui checkbox">
+                <input class="sticky" id="isSticky" type="checkbox">
+                <label class="sticky" for="isSticky">Sticky?</label>
+              </div>
             </div>
-          </div>
 
-          <div class="ui error message">
-            <div class="header">We noticed some issues</div>
+            <div class="ui error message">
+              <div class="header">We noticed some issues</div>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-    <div class="one column row">
-      <div class="column">
-        <div class="service type example">
-          <div class="ui segment">
-            <div class="ui ribbon label">Example</div>
-            <span class="service example thetext">Enter a name for the service above</span>
-            <span class="service example controls">
-              <span class="service example control boolean" style="display:none">
-                <div class="ui large buttons">
-                  <div class="ui green button">Yes</div>
-                  <div class="or"></div>
-                  <div class="ui red button">No</div>
-                </div>
-              </span>
-              <span class="example service control list" style="display:none">
-                <div class="ui example service list selection dropdown">
-                  <div class="default text">Add options</div>
-                  <i class="dropdown icon"></i>
-                  <div class="menu">
+      <div class="one column row">
+        <div class="column">
+          <div class="service type example">
+            <div class="ui segment">
+              <div class="ui ribbon label">Example</div>
+              <span class="service example thetext">Enter a name for the service above</span>
+              <span class="service example controls">
+                <span class="service example control boolean" style="display:none">
+                  <div class="ui large buttons">
+                    <div class="ui green button">Yes</div>
+                    <div class="or"></div>
+                    <div class="ui red button">No</div>
                   </div>
-                </div>            
+                </span>
+                <span class="example service control list" style="display:none">
+                  <div class="ui example service list selection dropdown">
+                    <div class="default text">Add options</div>
+                    <i class="dropdown icon"></i>
+                    <div class="menu">
+                    </div>
+                  </div>            
+                </span>
+                <span class="service example control text" style="display:none">
+                  <div class="ui input">
+                    <input type="text">
+                  </div> 
+                </span>
+                <span class="service example control number" style="display:none">
+                  <div class="ui input">
+                    <input type="number">
+                  </div> 
+                </span>
               </span>
-              <span class="service example control text" style="display:none">
-                <div class="ui input">
-                  <input type="text">
-                </div> 
-              </span>
-              <span class="service example control number" style="display:none">
-                <div class="ui input">
-                  <input type="number">
-                </div> 
-              </span>
-            </span>
-          </div>
-        </div>    
+            </div>
+          </div>    
+        </div>
       </div>
-    </div>
-    <div class="one column row">
-      <div class="column">
-        <div class="ui service create service basic huge button">Create</div>
+      <div class="one column row">
+        <div class="column">
+          <div class="ui service create service basic huge button">Create</div>
+        </div>
       </div>
-    </div>
+    {{/if}}
     <!-- ============== -->
 
   {{/with}}

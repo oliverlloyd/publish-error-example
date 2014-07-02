@@ -113,17 +113,17 @@ var applyStickyPopup = function(item){
 Template.services.helpers({
   // return all services in an array
   allServices: function(){
-    var self = this;
-    return self.services;
+    var project = this;
+    return project.services;
   },
   // returns true is there is at least one service
   atLeastOneService: function(){
-    var self = this;
-    return self.services && self.services.length > 0;
+    var project = this;
+    return project.services && project.services.length > 0;
   },
   createText: function(){
-    var self = this;
-    var length = self.services ? self.services.length : 0;
+    var project = this;
+    var length = project.services ? project.services.length : 0;
     switch (length){
       case 0: return "";
       case 1: return "That's 1, more?";
@@ -132,24 +132,31 @@ Template.services.helpers({
     }
   },
   titleText: function(){
-    var self = this;
-    var length = self.services ? self.services.length : 0;
-    if ( length === 0 ) return "You don't have any services, create one?";
-    else if ( length === 1 ) return "This project has one service";
-    else return "You have " + length + " services";
+    var project = this;
+    var length = project.services ? project.services.length : 0;
+    if ( length === 0 ) {
+      if ( ownsThisProject(project) ) return "You don't have any services, create one?";
+      else return "This project has no services defined";
+    } else if ( length === 1 ){
+      return "This project has one service";
+    } else {
+      return "There are " + length + " services";
+    }
   },
   isFirstRow: function(){
-    var self = this;
-    var length = self.services ? self.services.length : 0;
+    var project = this;
+    var length = project.services ? project.services.length : 0;
     if ( length === 0 ) return 'first-row';
     return false;
-  }
+  },
+  // return true if this user is the owner
+  isOwner: function(project){
+    return ownsThisProject(project);
+  },
 });
 
 Template.services.events({
   'change input.service.type': function (event, template) {
-    var self = this;
-
     // Show example
     var type = $('.ui.service.type.dropdown').dropdown('get value');
     showServiceExample(type);
