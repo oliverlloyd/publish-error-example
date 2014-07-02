@@ -3,8 +3,9 @@ restyle create project form
 add questionnaires
 style notification and invite emails
 add link to notification email
-add delete colloborator method and event
 create stub reports page
 think about building out some dummy data for visits / clients
-edit what I see as a collaborator
-restyle projects page
+style projects page
+add client questions
+build in payment...
+customise accounts
