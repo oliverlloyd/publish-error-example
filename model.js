@@ -6,5 +6,4 @@ Our datasets or tables
 
 /+ ---------------------------------------------------- */
 
-Tags = new Meteor.Collection('tags');
-
+Things = new Meteor.Collection('things');
