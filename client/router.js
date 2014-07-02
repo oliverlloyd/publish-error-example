@@ -26,12 +26,12 @@ var mustBeSignedIn = function(pause) {
   }
 };
 
+Router.onBeforeAction(mustBeSignedIn, {except: ['homepage']});
+
 var goToProjects = function(pause) {
   if (Meteor.user()) {
     this.redirect('projects');
     pause();
   }
 };
-
-Router.onBeforeAction(mustBeSignedIn, {except: ['homepage']});
 Router.onBeforeAction(goToProjects, {only: ['homepage']});
