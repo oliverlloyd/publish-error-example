@@ -143,12 +143,6 @@ Template.services.helpers({
       return "There are " + length + " services";
     }
   },
-  isFirstRow: function(){
-    var project = this;
-    var length = project.services ? project.services.length : 0;
-    if ( length < 2 ) return 'first-row';
-    return false;
-  },
   // return true if this user is the owner
   isOwner: function(project){
     return ownsThisProject(project);

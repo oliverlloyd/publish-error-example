@@ -1,7 +1,7 @@
 <template name="services">
   {{#with project}}
     <!-- Page title -->
-    <div class="one column row {{isFirstRow}}">
+    <div class="one column row first-row">
       <div class="column">
         <span class="centered title">{{titleText}}</span>
       </div>
@@ -32,7 +32,7 @@
 
     <!-- Create New Service -->
     {{#if isOwner this}}
-      <div class="one column row {{isFirstRow}}">
+      <div class="one column row first-row">
         <div class="column">
           <span class="centered title">{{createText}}</span>
         </div>
